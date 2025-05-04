@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">Weather_App</string>
+    <string name="app_name">Weather App</string>
+
+    <string name="page_one_onboarding_title">One place for all your tasks</string>
+    <string name="page_one_onboarding_description">You can seamlessly track and organize household, work and personal tasks all in one convenient place.</string>
+    <string name="page_two_onboarding_title">Support of healthy habits</string>
+    <string name="page_two_onboarding_description">Effortlessly monitor your hydration levels, engage in physical activities, follow the daily routine and more.</string>
+    <string name="page_three_onboarding_title">Watch your achievements</string>
+    <string name="page_three_onboarding_description">Track your accomplishment, viewing productivity statics and receiving well-deserved rewards.</string>
+
+    <string name="onboarding_title">Explore global map of wind, weather, and ocean conditions</string>
+    <string name="onboarding_description">Planing your trip become more easier with ideate weather app. you can instantly see the whole word weather within few second</string>
+    <string name="get_started_button">Get started</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="log_in">Log in</string>
 </resources>
