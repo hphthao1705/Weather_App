@@ -1,0 +1,14 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Circular background -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#6151C3" /> <!-- Set your desired background color -->
+        </shape>
+    </item>
+
+    <!-- PNG image centered -->
+    <item
+        android:drawable="@drawable/logo_1"
+        android:gravity="center" />
+</layer-list>
