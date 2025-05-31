@@ -4,6 +4,9 @@ plugins {
 
     //Add this
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt") //for 'kapt'
 
     //Serialization
     alias(libs.plugins.jetbrains.kotlin.serialization)
@@ -83,4 +86,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.adaptive.navigation)
     implementation(libs.kotlinx.serialization.core)
+
+    //Hilt
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
 }
