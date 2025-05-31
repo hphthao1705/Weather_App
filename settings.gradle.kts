@@ -16,6 +16,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+        //for all version have 'SNAPSHOT'
+        maven {
+            url = uri("https://androidx.dev/snapshots/builds/latest/artifacts/repository")
+        }
     }
 }
 

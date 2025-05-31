@@ -36,9 +36,12 @@ private val onBoardingBackgroundColor = Color(0xFF6151C3)
 private val onBoardingDescriptionTextColor = Color(0xFF6B6A71)
 
 @Composable
-internal fun OnboardingScreen(modifier: Modifier) {
+internal fun OnboardingScreen(
+    onButtonClick: () -> Unit,
+    onLogInClick: () -> Unit
+) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(onBoardingBackgroundColor)
     ) {
@@ -50,7 +53,10 @@ internal fun OnboardingScreen(modifier: Modifier) {
             contentDescription = "World image"
         )
 
-        IntroductoryComposable(onButtonClick = {}, onLogInClick = {})
+        IntroductoryComposable(
+            onButtonClick = { onButtonClick() },
+            onLogInClick = { onLogInClick() }
+        )
     }
 }
 
@@ -157,5 +163,5 @@ private fun LogInComposable(onClick: () -> Unit) {
 @Preview
 @Composable
 private fun Preview() {
-    OnboardingScreen(modifier = Modifier)
+    OnboardingScreen(onButtonClick = {}, onLogInClick = {})
 }
