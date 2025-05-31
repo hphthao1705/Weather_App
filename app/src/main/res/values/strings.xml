@@ -7,4 +7,7 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="log_in">Log in</string>
     <string name="something_went_wrong">Something went wrong! Please try again</string>
+    <string name="discover_the_weather">Discover the weather</string>
+    <string name="current_location">Current location</string>
+    <string name="recently_search">Recently search</string>
 </resources>
