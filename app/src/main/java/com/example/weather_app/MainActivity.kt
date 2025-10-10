@@ -40,7 +40,13 @@ fun AppNavGraph() {
     NavHost(navController = navController, startDestination = "onboarding") {
         composable("onboarding") {
             OnboardingScreen(
-                onButtonClick = { navController.navigate("home") },
+                onButtonClick = {
+                    navController.navigate("home") {
+                        popUpTo("onboarding") {
+                            inclusive = true
+                        } // remove Onboarding from back stack
+                    }
+                },
                 onLogInClick = {}
             )
         }
