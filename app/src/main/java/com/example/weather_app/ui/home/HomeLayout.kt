@@ -25,14 +25,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.weather_app.ui.country.CountryViewModel
 import com.example.weather_app.ui.home.data.WeatherUiData
 import com.example.weather_app.util.CustomFontFamily
+import androidx.hilt.navigation.compose.hiltViewModel
 
 private val cardBackgroundColor = Color(0xFF6151C3)
 private val cardTextColor = Color(0xFFFFFFFFF)
 
 @Composable
-internal fun HomeScreen() {
+internal fun HomeScreen(
+    viewModel: CountryViewModel = hiltViewModel()
+) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 26.dp)

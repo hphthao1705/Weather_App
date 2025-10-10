@@ -38,7 +38,7 @@ private val onBoardingDescriptionTextColor = Color(0xFF6B6A71)
 @Composable
 internal fun OnboardingScreen(
     onButtonClick: () -> Unit,
-    onLogInClick: () -> Unit
+    onLogInClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -93,6 +93,7 @@ private fun IntroductoryComposable(onButtonClick: () -> Unit, onLogInClick: () -
                         fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
                         fontSize = 18.sp,
                         lineHeight = 18.sp,
+                        color = Color.White
                     )
                 )
             }
@@ -163,5 +164,5 @@ private fun LogInComposable(onClick: () -> Unit) {
 @Preview
 @Composable
 private fun Preview() {
-    OnboardingScreen(onButtonClick = {}, onLogInClick = {})
+//    OnboardingScreen(onButtonClick = {}, onLogInClick = {})
 }

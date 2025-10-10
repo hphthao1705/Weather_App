@@ -10,6 +10,8 @@ plugins {
 
     //Serialization
     alias(libs.plugins.jetbrains.kotlin.serialization)
+
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -18,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.weather_app"
-        minSdk = 29
+        minSdk = 30
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -33,6 +35,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField("String" ,"COUNTRY_URL", "\"https://api.api-ninjas.com/v1\"")
+
         }
     }
     compileOptions {
@@ -45,11 +50,24 @@ android {
 
     //Add this
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.0" //Check latest version
+    }
+
+    // Solve: 13 files found with path 'META-INF/INDEX.LIST' from inputs:
+    packaging {
+        resources {
+            excludes += listOf(
+                "META-INF/LICENSE*",
+                "META-INF/DEPENDENCIES",
+                "META-INF/INDEX.LIST",
+                "META-INF/io.netty.versions.properties"
+            )
+        }
     }
 }
 
@@ -59,6 +77,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.navigation.compose.android)
+    implementation(libs.firebase.appdistribution.gradle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -86,8 +105,15 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.adaptive.navigation)
     implementation(libs.kotlinx.serialization.core)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
     //Hilt
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    //Retrofit2
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.gson)
 }

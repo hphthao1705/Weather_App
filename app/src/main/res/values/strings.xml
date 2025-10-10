@@ -10,4 +10,6 @@
     <string name="discover_the_weather">Discover the weather</string>
     <string name="current_location">Current location</string>
     <string name="recently_search">Recently search</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
