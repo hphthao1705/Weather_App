@@ -8,9 +8,12 @@ import okio.Buffer
 class CurlLoggingInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val method = request.method()
-        val body = request.body()
-        val url = request.url()
+        // RequestBody?' is deprecated.
+        val method = request.method
+        // RequestBody?' is deprecated.
+        val body = request.body
+        // HttpUrl' is deprecated.
+        val url = request.url
 
         val curlCmd = StringBuilder("curl -X $method")
 
