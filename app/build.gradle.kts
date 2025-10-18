@@ -72,7 +72,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -82,24 +81,24 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //Material Design 3
+    // Material Design 3
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material3)
 
-    //Android Studio Preview support
+    // Android Studio Preview support
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.tooling)
 
-    //Integration with activities
+    // Integration with activities
     implementation(libs.androidx.activity.compose)
 
-    //Integration with ViewModels
+    // Integration with ViewModels
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    //Splash API
+    // Splash API
     implementation(libs.androidx.core.splashscreen)
 
-    //Navigation 3
+    // Navigation 3
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
@@ -108,12 +107,18 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
-    //Hilt
+    // Hilt
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    //Retrofit2
+    // Retrofit2
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
+
+    // Coil
+    implementation(libs.io.coil.kt)
+
+    // Gson
+    implementation(libs.gson.android)
 }
