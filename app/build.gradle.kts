@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
 
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -121,4 +122,7 @@ dependencies {
 
     // Gson
     implementation(libs.gson.android)
+
+    // Skeleton shimmer
+    implementation(libs.shimmer.android)
 }

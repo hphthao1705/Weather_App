@@ -2,6 +2,7 @@ package com.example.weather_app.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import com.example.weather_app.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,10 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weather_app.ui.country.CountryViewModel
+import com.example.weather_app.ui.home.HomeViewModel
 import com.example.weather_app.ui.home.data.WeatherUiData
 import com.example.weather_app.util.CustomFontFamily
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,13 +36,14 @@ private val cardTextColor = Color(0xFFFFFFFFF)
 
 @Composable
 internal fun HomeScreen(
-    viewModel: CountryViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onSearchClick: () -> Unit,
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 26.dp)
     ) {
-        HeaderSection(userName = "Thao Ho")
+        HeaderSection(userName = "Thao Ho", onSearchClick = onSearchClick)
 
         Spacer(modifier = Modifier.height(26.dp))
 
@@ -65,7 +67,7 @@ internal fun HomeScreen(
 }
 
 @Composable
-private fun HeaderSection(userName: String) {
+private fun HeaderSection(userName: String, onSearchClick: () -> Unit ) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(top = 43.dp)
@@ -75,8 +77,11 @@ private fun HeaderSection(userName: String) {
         Spacer(modifier = Modifier.width(33.dp))
 
         Image(
-            modifier = Modifier.size(50.dp),
-            painter = painterResource(R.drawable.search_button) ,
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
+                .clickable { onSearchClick() },
+            painter = painterResource(R.drawable.search_button),
             contentDescription = "Search Button"
         )
 
@@ -172,12 +177,5 @@ private fun WeatherItem(weather: WeatherUiData) {
 @Composable
 private fun HistoryWeatherSearchSection(history: List<WeatherUiData>) {
 
-}
-
-
-@Preview
-@Composable
-private fun Preview() {
-    HomeScreen()
 }
 

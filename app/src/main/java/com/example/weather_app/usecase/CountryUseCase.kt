@@ -2,8 +2,8 @@ package com.example.weather_app.usecase
 
 import com.example.weather_app.api.ApiState
 import com.example.weather_app.repository.CountryRepository
-import com.example.weather_app.ui.country.uidata.CountryUiData
-import com.example.weather_app.ui.country.uidata.toCountryUiDataList
+import com.example.weather_app.ui.home.data.CountryUiData
+import com.example.weather_app.ui.home.data.toCountryUiDataList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

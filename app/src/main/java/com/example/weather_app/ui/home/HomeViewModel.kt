@@ -1,4 +1,4 @@
-package com.example.weather_app.ui.country
+package com.example.weather_app.ui.home
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CountryViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val useCase: CountryUseCase
 ) : ViewModel() {
 
