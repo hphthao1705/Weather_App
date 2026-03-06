@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.navigation.compose.android)
     implementation(libs.firebase.appdistribution.gradle)
+    implementation(libs.androidx.contentpager)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
