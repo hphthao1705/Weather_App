@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,17 +33,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather_app.R
 import com.example.weather_app.ui.home.data.CountryUiData
+import com.example.weather_app.ui.loading.shimmerLoading
+import com.example.weather_app.ui.search.state.SearchUiState
+import com.example.weather_app.ui.weatherDetails.WeatherDetailsScreen
 import com.example.weather_app.util.CustomFontFamily
-import com.example.weather_app.util.debugLog
 
 private val searchTheme = Color(0xFF6151C3)
 
 @Composable
-internal fun SearchScreen(viewModel: SearchViewModel, onBackButtonClick: () -> Unit) {
+internal fun SearchScreen(
+    viewModel: SearchViewModel,
+    onBackButtonClick: () -> Unit,
+    onCountryClick: (CountryUiData) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,38 +66,23 @@ internal fun SearchScreen(viewModel: SearchViewModel, onBackButtonClick: () -> U
         when(uiState) {
             is SearchUiState.StandBy -> Unit
             is SearchUiState.Loading -> {
-
+                SearchLoadingScreen()
             }
             is SearchUiState.Error -> {
-                "error: ${(uiState as SearchUiState.Error).message}".debugLog()
+                SearchErrorScreen(message = (uiState as SearchUiState.Error).message, onRetry = viewModel::getAllCountry)
             }
             is SearchUiState.Success -> {
-                "uiState.data: ${(uiState as SearchUiState.Success).data}".debugLog()
-                ResultSection(countries = (uiState as SearchUiState.Success).data, onItemClick = {})
+                SearchResultsScreen(countries = (uiState as SearchUiState.Success).data, onItemClick = { country: CountryUiData? ->
+                    if(country != null) {
+                        onCountryClick(country)
+                    } else {
+                        // TODO - TH: handle null here
+                    }
+                })
             }
         }
     }
 }
-
-//@Composable
-//private fun HeaderSection(onBackButtonClick: () -> Unit) {
-//    Row {
-//        Spacer(modifier = Modifier.width(20.dp))
-//
-//        Spacer(modifier = Modifier.weight(1f))
-//        Text(
-//            text = "Search your country",
-//            style = TextStyle(
-//                fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
-//                fontSize = 30.sp,
-//                lineHeight = 30.sp,
-//            ),
-//            color = Color.White
-//        )
-//        Spacer(modifier = Modifier.weight(1f))
-//    }
-//
-//}
 
 @Composable
 private fun BackButton(onBackButtonClick: () -> Unit) {
@@ -163,7 +156,7 @@ private fun SearchSection() {
 }
 
 @Composable
-private fun ResultSection(countries: List<CountryUiData>, onItemClick: (String) -> Unit) {
+private fun SearchResultsScreen(countries: List<CountryUiData>, onItemClick: (CountryUiData?) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
 //        contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp),
@@ -173,26 +166,90 @@ private fun ResultSection(countries: List<CountryUiData>, onItemClick: (String) 
             count = countries.size,
             key = { index -> countries[index] }) { index ->
             val country = countries.getOrNull(index)
-            SearchResultItem(country = country?.name.orEmpty())
+            SearchResultItem(country = country, onItemClick)
         }
     }
 }
 
 @Composable
-private fun SearchResultItem(country: String) {
+private fun SearchResultItem(country: CountryUiData?, onItemClick: (CountryUiData?) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = Color.White)
+            .clickable {
+                onItemClick(country)
+            }
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp),
-            text = country,
+            text = country?.name.orEmpty(),
             style = TextStyle(
                 fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
                 fontSize = 14.sp,
                 color = Color.Gray
             )
+        )
+    }
+}
+
+// error
+@Composable
+fun SearchErrorScreen(
+    message: String? = "Something went wrong",
+    onRetry: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = message.orEmpty(),
+            style = TextStyle(
+                fontSize = 16.sp,
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+            )
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(onClick = onRetry) {
+            Text("Retry")
+        }
+    }
+}
+
+// loading
+@Composable
+private fun SearchLoadingScreen() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        items(10) {
+            SearchResultItemLoading()
+        }
+    }
+}
+
+@Composable
+private fun SearchResultItemLoading() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 20.dp, vertical = 8.dp)
+                .fillMaxWidth(0.6f)
+                .height(16.dp)
+                .shimmerLoading()
         )
     }
 }

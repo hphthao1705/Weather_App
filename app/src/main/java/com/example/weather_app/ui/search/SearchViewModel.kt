@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather_app.api.ApiState
 import com.example.weather_app.ui.home.data.CountryUiData
+import com.example.weather_app.ui.search.state.SearchUiState
 import com.example.weather_app.usecase.CountryUseCase
 import com.example.weather_app.util.GsonExt.toJsonOrNull
 import com.example.weather_app.util.PrefsUtils
@@ -44,19 +45,14 @@ class SearchViewModel @Inject constructor(
                         _uiState.value = SearchUiState.Loading
                     }
                         is ApiState.Success -> {
-                            "1".debugLog()
                             val countries: List<CountryUiData?>? = apiState.data
-                            "2".debugLog()
                             if(!countries.isNullOrEmpty()) {
-                                "3".debugLog()
                                 _uiState.value = SearchUiState.Success(data = countries.filterNotNull())
                                 val json = gson.toJsonOrNull(apiState.data.orEmpty())
                                 if(json.isNotEmpty()) {
-                                    "4".debugLog()
                                     PrefsUtils.saveCountryList(json = json)
                                 }
                             } else {
-                                "5".debugLog()
                                 _uiState.value = SearchUiState.Error(message = "No data")
                             }
                         }

@@ -17,6 +17,7 @@ import com.example.weather_app.ui.WeatherAppTheme
 import com.example.weather_app.ui.home.HomeScreen
 import com.example.weather_app.ui.onboarding.OnboardingScreen
 import com.example.weather_app.ui.search.SearchScreen
+import com.example.weather_app.ui.weatherDetails.WeatherDetailsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -147,8 +148,44 @@ fun AppNavGraph() {
             }) {
             SearchScreen(
                 viewModel = hiltViewModel(),
-                onBackButtonClick = { navController.popBackStack() }
+                onBackButtonClick = { navController.popBackStack() },
+                onCountryClick = { country ->
+                    navController.navigate("weatherDetails/${country.name}")
+                }
             )
+        }
+
+        composable(
+            route = "weatherDetails/{country}", enterTransition = {
+                // Open screen from right to left
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(300)
+                )
+            },
+            exitTransition = {
+                // Exit from the screen
+                slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> -fullWidth },
+                    animationSpec = tween(300)
+                )
+            },
+            popEnterTransition = {
+                // Come back to this screen => back press
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> -fullWidth },
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                // When popping away from this screen
+                slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(300)
+                )
+            }) { backStackEntry ->
+            val country = backStackEntry.arguments?.getString("country")
+            WeatherDetailsScreen(country = country.orEmpty())
         }
     }
 }

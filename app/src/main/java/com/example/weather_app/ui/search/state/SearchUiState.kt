@@ -1,4 +1,4 @@
-package com.example.weather_app.ui.search
+package com.example.weather_app.ui.search.state
 
 import com.example.weather_app.ui.home.data.CountryUiData
 
