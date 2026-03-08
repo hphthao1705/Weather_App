@@ -26,8 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weather_app.ui.home.HomeViewModel
-import com.example.weather_app.ui.home.data.WeatherUiData
+import com.example.weather_app.ui.home.data.HomeWeatherUiData
 import com.example.weather_app.util.CustomFontFamily
 import androidx.hilt.navigation.compose.hiltViewModel
 
@@ -48,7 +47,7 @@ internal fun HomeScreen(
         Spacer(modifier = Modifier.height(26.dp))
 
         //Current location item
-        WeatherItem(weather = WeatherUiData(state = "Ho Chi Minh", country = "Viet Nam", weatherCondition = "Mostly sunny", temperatureCelsius = 17))
+        WeatherItem(weather = HomeWeatherUiData(state = "Ho Chi Minh", country = "Viet Nam", weatherCondition = "Mostly sunny", temperatureCelsius = 17))
 
         Spacer(modifier = Modifier.height(50.dp))
 
@@ -123,7 +122,7 @@ private fun WelcomeText(userName: String, modifier: Modifier) {
 }
 
 @Composable
-private fun WeatherItem(weather: WeatherUiData) {
+private fun WeatherItem(weather: HomeWeatherUiData) {
     Row(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(20.dp))
@@ -175,7 +174,7 @@ private fun WeatherItem(weather: WeatherUiData) {
 }
 
 @Composable
-private fun HistoryWeatherSearchSection(history: List<WeatherUiData>) {
+private fun HistoryWeatherSearchSection(history: List<HomeWeatherUiData>) {
 
 }
 
