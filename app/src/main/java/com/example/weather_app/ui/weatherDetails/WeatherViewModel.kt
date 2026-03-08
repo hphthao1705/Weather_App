@@ -1,6 +1,5 @@
 package com.example.weather_app.ui.weatherDetails
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather_app.api.ApiState
@@ -28,14 +27,11 @@ class WeatherViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             useCase.getWeather(cityName = cityName).collect { apiState ->
                 when(apiState) {
-                    is ApiState.Error -> {
-                        "error: ${apiState.message}".debugLog()
-                    }
-                    is ApiState.Loading -> {
-
-                    }
+                    is ApiState.Error -> _uiState.value = WeatherUiState.Error(apiState.message)
+                    is ApiState.Loading -> _uiState.value = WeatherUiState.Loading
                     is ApiState.Success -> {
-                       "Success: ${apiState.data}".debugLog()
+                        "Success: ${apiState.data}".debugLog()
+                        _uiState.value = WeatherUiState.Success(apiState.data)
                     }
                 }
             }

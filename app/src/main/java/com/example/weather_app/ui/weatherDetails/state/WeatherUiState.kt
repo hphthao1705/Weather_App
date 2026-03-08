@@ -1,7 +1,6 @@
 package com.example.weather_app.ui.weatherDetails.state
 
-import com.example.weather_app.ui.home.data.CountryUiData
-import com.example.weather_app.ui.home.data.WeatherUiData
+import com.example.weather_app.ui.weatherDetails.data.WeatherUiData
 
 sealed class WeatherUiState {
     data class Success(val data: WeatherUiData) : WeatherUiState()
