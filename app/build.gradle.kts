@@ -126,4 +126,6 @@ dependencies {
 
     // Skeleton shimmer
     implementation(libs.shimmer.android)
+
+    implementation(libs.play.services.auth)
 }
