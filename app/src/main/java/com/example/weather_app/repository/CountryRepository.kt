@@ -16,6 +16,7 @@ class CountryRepositoryImpl @Inject constructor(
     private val api: CountryApiClient,
 ) : CountryRepository {
     override suspend fun getAllCountry(): Flow<ApiState<List<CountryResponse>>> = flow {
+        emit(ApiState.Loading)
         ApiHelper.launch (
             apiCall = {
                 api.getAllCountry()

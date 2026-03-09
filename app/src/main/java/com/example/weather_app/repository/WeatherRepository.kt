@@ -17,6 +17,7 @@ class WeatherRepositoryImpl @Inject constructor(
     private val api: WeatherApiClient,
 ) : WeatherRepository {
     override suspend fun getWeather(cityName: String): Flow<ApiState<WeatherResponse>> = flow {
+        emit(ApiState.Loading)
         ApiHelper.launch (
             apiCall = {
                 api.getWeather(cityName = cityName)

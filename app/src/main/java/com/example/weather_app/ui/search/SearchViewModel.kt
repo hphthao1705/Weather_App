@@ -35,28 +35,65 @@ class SearchViewModel @Inject constructor(
     fun getAllCountry() {
         viewModelScope.launch(Dispatchers.IO) {
             useCase.getAllCountry().collect { apiState ->
-                when(apiState) {
+                when (apiState) {
                     is ApiState.Error -> {
-                        _uiState.value = SearchUiState.Error(message = apiState.message)
+                        _uiState.value = SearchUiState.Error(
+                            title = "No Data Available",
+                            content = "No weather data is available right now."
+                        )
                     }
+
                     is ApiState.Loading -> {
-                        "getAllCountry: Loading".debugLog()
                         _uiState.value = SearchUiState.Loading
                     }
-                        is ApiState.Success -> {
-                            val countries: List<CountryUiData?>? = apiState.data
-                            if(!countries.isNullOrEmpty()) {
-                                _uiState.value = SearchUiState.Success(data = countries.filterNotNull())
-                                val json = gson.toJsonOrNull(apiState.data.orEmpty())
-                                if(json.isNotEmpty()) {
-                                    PrefsUtils.saveCountryList(json = json)
-                                }
-                            } else {
-                                _uiState.value = SearchUiState.Error(message = "No data")
+
+                    is ApiState.Success -> {
+                        val countries: List<CountryUiData?>? = apiState.data
+                        if (!countries.isNullOrEmpty()) {
+                            _uiState.value = SearchUiState.Success(data = countries.filterNotNull())
+                            val json = gson.toJsonOrNull(apiState.data.orEmpty())
+                            if (json.isNotEmpty()) {
+                                PrefsUtils.saveCountryList(json = json)
                             }
+                        } else {
+                            _uiState.value = SearchUiState.Error(
+                                title = "No Data Available",
+                                content = "No weather data is available right now."
+                            )
+                            "Unable to fetch weather data. Please check your connection and try again."
                         }
+                    }
                 }
             }
+        }
+    }
+
+    fun filterCountryByName(query: String? = null, isShowAll: Boolean? = false) {
+        val countryJson = PrefsUtils.getCountryList()
+        "countryJson: $countryJson".debugLog()
+        if(countryJson.isBlank()) {
+            getAllCountry()
+            return
+        }
+
+        val countries = gson.fromJson(countryJson, Array<CountryUiData>::class.java).toList()
+
+        if(isShowAll == true) {
+            _uiState.value = SearchUiState.Success(data = countries)
+            return
+        }
+
+        val filteredCountries = countries.filter {
+            it.name?.contains(query?.trim().orEmpty()   , ignoreCase = true) == true
+        }
+
+        if(filteredCountries.isNotEmpty()) {
+            _uiState.value = SearchUiState.Success(data = filteredCountries)
+        } else {
+            _uiState.value = SearchUiState.Error(
+                title = "No Matching Location",
+                content = "No results for $query. Please check the spelling or try another place."
+            )
         }
     }
 }
