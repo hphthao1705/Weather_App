@@ -37,7 +37,6 @@ class SearchViewModel @Inject constructor(
             useCase.getAllCountry().collect { apiState ->
                 when(apiState) {
                     is ApiState.Error -> {
-                        "getAllCountry: error - ${apiState.message}".debugLog()
                         _uiState.value = SearchUiState.Error(message = apiState.message)
                     }
                     is ApiState.Loading -> {
