@@ -45,10 +45,10 @@ import androidx.compose.ui.unit.sp
 import com.example.weather_app.R
 import com.example.weather_app.ui.home.data.CountryUiData
 import com.example.weather_app.ui.loading.shimmerLoading
+import com.example.weather_app.ui.search.state.ErrorType
 import com.example.weather_app.ui.search.state.SearchUiState
 import com.example.weather_app.util.CustomFontFamily
 import com.example.weather_app.util.debugLog
-import kotlin.contracts.contract
 
 private val searchTheme = Color(0xFF6151C3)
 
@@ -86,6 +86,7 @@ internal fun SearchScreen(
                 SearchErrorScreen(
                     title = (uiState as SearchUiState.Error).title,
                     message = (uiState as SearchUiState.Error).content,
+                    showRetry = (uiState as SearchUiState.Error).errorType == ErrorType.NO_INTERNET,
                     onRetry = viewModel::getAllCountry
                 )
             }
@@ -219,6 +220,7 @@ private fun SearchResultItem(country: CountryUiData?, onItemClick: (CountryUiDat
 fun SearchErrorScreen(
     title: String,
     message: String,
+    showRetry: Boolean = true,
     onRetry: () -> Unit
 ) {
     Box(
@@ -275,34 +277,35 @@ fun SearchErrorScreen(
                 textAlign = TextAlign.Center,
             )
 
-            Spacer(modifier = Modifier.height(28.dp))
+            if(showRetry) {
+                Spacer(modifier = Modifier.height(28.dp))
 
-            Button(
-                onClick = onRetry,
-                shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = searchTheme
-                ),
-                contentPadding = PaddingValues(
-                    horizontal = 28.dp,
-                    vertical = 12.dp
-                )
-            ) {
+                Button(
+                    onClick = onRetry,
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = searchTheme
+                    ),
+                    contentPadding = PaddingValues(
+                        horizontal = 28.dp,
+                        vertical = 12.dp
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = "Retry icon",
+                        tint = Color.White
+                    )
 
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "Retry",
-                    tint = Color.White
-                )
+                    Spacer(modifier = Modifier.width(8.dp))
 
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Text(
-                    text = "Retry",
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
+                    Text(
+                        text = "Retry",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
             }
         }
     }
