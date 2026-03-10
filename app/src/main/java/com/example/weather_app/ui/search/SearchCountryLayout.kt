@@ -116,9 +116,11 @@ private fun BackButton(onBackButtonClick: () -> Unit) {
             modifier = Modifier
                 .align(Alignment.CenterStart) // stick to the left
                 .padding(start = 20.dp)
-                .size(20.dp)
+                .size(32.dp)
                 .clip(CircleShape)
-                .clickable { onBackButtonClick() },
+                .clickable { onBackButtonClick() }
+                // padding inside
+                .padding(8.dp),
             painter = painterResource(id = R.drawable.ic_back_button),
             contentDescription = "Icon back",
             tint = Color.White
