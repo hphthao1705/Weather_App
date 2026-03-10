@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather_app.api.ApiState
 import com.example.weather_app.ui.home.data.CountryUiData
+import com.example.weather_app.ui.search.state.ErrorType
 import com.example.weather_app.ui.search.state.SearchUiState
 import com.example.weather_app.usecase.CountryUseCase
 import com.example.weather_app.util.GsonExt.toJsonOrNull
@@ -39,7 +40,8 @@ class SearchViewModel @Inject constructor(
                     is ApiState.Error -> {
                         _uiState.value = SearchUiState.Error(
                             title = "No Data Available",
-                            content = "No weather data is available right now."
+                            content = "No country data is available right now.",
+                            errorType = ErrorType.NO_INTERNET
                         )
                     }
 
@@ -58,7 +60,8 @@ class SearchViewModel @Inject constructor(
                         } else {
                             _uiState.value = SearchUiState.Error(
                                 title = "No Data Available",
-                                content = "No weather data is available right now."
+                                content = "No country data is available right now.",
+                                errorType = ErrorType.NO_INTERNET
                             )
                             "Unable to fetch weather data. Please check your connection and try again."
                         }
@@ -92,7 +95,8 @@ class SearchViewModel @Inject constructor(
         } else {
             _uiState.value = SearchUiState.Error(
                 title = "No Matching Location",
-                content = "No results for $query. Please check the spelling or try another place."
+                content = "No results for $query. Please check the spelling or try another place.",
+                errorType = ErrorType.NO_DATA
             )
         }
     }
