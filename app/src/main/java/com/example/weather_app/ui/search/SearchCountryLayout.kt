@@ -331,7 +331,7 @@ private fun SearchResultItemLoading() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(24.dp)
+                .height(35.dp)
                 .shimmerLoading()
         )
     }
