@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 /**
@@ -41,4 +42,35 @@ fun WeatherAppTheme(
         colorScheme = colors,
         content = content
     )
+}
+
+data class WeatherColorScheme(
+    val textPrimary: Color = Color.Unspecified,
+    val brandColor: Color = Color.Unspecified,
+    val onBrandColor: Color = Color.Unspecified,
+    val textSecondary: Color = Color.Unspecified,
+    val backgroundError: Color = Color.Unspecified,
+    val background: Color = Color.Unspecified,
+)
+
+private val weatherLightColors = WeatherColorScheme(
+    textPrimary = Color(0xFF141413),
+    textSecondary = Color(0xFFF8F8F8),
+    brandColor = Color(0xFF6151C3),
+    onBrandColor = Color(0xFFFFFFFFF),
+    background = Color(0xFF070707),
+    backgroundError = Color(0xFFF8F8F8)
+)
+
+private val weatherDarkColors = WeatherColorScheme(
+    textPrimary = Color(0xFFFFFFFFF),
+    textSecondary = Color(0xFF141413),
+    brandColor = Color(0xFF6151C3),
+    onBrandColor = Color(0xFF141413),
+    background = Color(0xFFF8F8F8),
+    backgroundError = Color(0xFFF8F8F8)
+)
+
+val LocalWeatherColorScheme = staticCompositionLocalOf {
+    WeatherColorScheme()
 }
