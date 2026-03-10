@@ -3,6 +3,8 @@ package com.example.weather_app.di
 import com.example.weather_app.api.CountryApiClient
 import com.example.weather_app.api.CurlLoggingInterceptor
 import com.example.weather_app.api.WeatherApiClient
+import com.example.weather_app.network.NetWorkInterface
+import com.example.weather_app.network.NetworkMonitor
 import com.example.weather_app.util.AppModule.COUNTRY_BASE_URL
 import com.example.weather_app.util.AppModule.WEATHER_API_VERSION
 import com.example.weather_app.util.AppModule.WEATHER_BASE_URL
@@ -21,6 +23,7 @@ import javax.inject.Qualifier
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class CountryRetrofit
+
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class WeatherRetrofit
@@ -39,7 +42,7 @@ object NetworkModule {
     @CountryRetrofit
     @Singleton
     @Provides
-    fun provideRetrofitForCountry(client: OkHttpClient) : Retrofit {
+    fun provideRetrofitForCountry(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
 //            .baseUrl("$COUNTRY_BASE_URL$COUNTRY_API_VERSION")
             .baseUrl(COUNTRY_BASE_URL)
@@ -51,7 +54,7 @@ object NetworkModule {
     @WeatherRetrofit
     @Singleton
     @Provides
-    fun provideRetrofitForWeather(client: OkHttpClient) : Retrofit {
+    fun provideRetrofitForWeather(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("$WEATHER_BASE_URL$WEATHER_API_VERSION")
             .client(client)
@@ -67,9 +70,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCountryApiClient(@CountryRetrofit retrofit: Retrofit): CountryApiClient = retrofit.create(CountryApiClient::class.java)
+    fun provideCountryApiClient(@CountryRetrofit retrofit: Retrofit): CountryApiClient =
+        retrofit.create(CountryApiClient::class.java)
 
     @Provides
     @Singleton
-    fun provideWeatherApiClient(@WeatherRetrofit retrofit: Retrofit): WeatherApiClient = retrofit.create(WeatherApiClient::class.java)
+    fun provideWeatherApiClient(@WeatherRetrofit retrofit: Retrofit): WeatherApiClient =
+        retrofit.create(WeatherApiClient::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNetworkMonitor(monitor: NetworkMonitor): NetWorkInterface = monitor
 }

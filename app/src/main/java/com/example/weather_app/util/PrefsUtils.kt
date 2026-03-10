@@ -34,4 +34,12 @@ object PrefsUtils {
         }
         return ""
     }
+
+    fun deleteCountryList() {
+        if (isInitialized()) {
+            prefs.edit {
+                remove(PREFS_COUNTRY)
+            }
+        }
+    }
 }

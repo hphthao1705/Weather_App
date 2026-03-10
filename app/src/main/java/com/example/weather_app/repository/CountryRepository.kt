@@ -4,6 +4,7 @@ import com.example.weather_app.api.CountryApiClient
 import com.example.weather_app.api.ApiHelper
 import com.example.weather_app.api.ApiState
 import com.example.weather_app.data.CountryResponse
+import com.example.weather_app.network.NetworkMonitor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -13,10 +14,15 @@ interface CountryRepository {
 }
 
 class CountryRepositoryImpl @Inject constructor(
+    private val networkMonitor: NetworkMonitor,
     private val api: CountryApiClient,
 ) : CountryRepository {
     override suspend fun getAllCountry(): Flow<ApiState<List<CountryResponse>>> = flow {
         emit(ApiState.Loading)
+        if(!networkMonitor.isConnected) {
+            emit(ApiState.Error(code = -1, message = "No Internet Connection"))
+            return@flow
+        }
         ApiHelper.launch (
             apiCall = {
                 api.getAllCountry()

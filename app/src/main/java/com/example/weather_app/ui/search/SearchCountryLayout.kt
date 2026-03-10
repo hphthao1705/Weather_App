@@ -1,5 +1,8 @@
 package com.example.weather_app.ui.search
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,10 +34,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -49,6 +54,7 @@ import com.example.weather_app.ui.search.state.ErrorType
 import com.example.weather_app.ui.search.state.SearchUiState
 import com.example.weather_app.util.CustomFontFamily
 import com.example.weather_app.util.debugLog
+import kotlinx.coroutines.launch
 
 private val searchTheme = Color(0xFF6151C3)
 
@@ -225,6 +231,9 @@ fun SearchErrorScreen(
     showRetry: Boolean = true,
     onRetry: () -> Unit
 ) {
+    val rotation = remember { Animatable(0f) }
+    val scope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -283,7 +292,19 @@ fun SearchErrorScreen(
                 Spacer(modifier = Modifier.height(28.dp))
 
                 Button(
-                    onClick = onRetry,
+                    onClick = {
+                        // when user click on Retry button, set the rotation value to 360 for rotate retry icon
+                        scope.launch {
+                            rotation.animateTo(
+                                targetValue = rotation.value + 360f, // ddd 360 to current for a full spin
+                                animationSpec = tween(
+                                    durationMillis = 600,
+                                    easing = FastOutSlowInEasing
+                                )
+                            )
+                        }
+                        onRetry()
+                    },
                     shape = RoundedCornerShape(50),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = searchTheme
@@ -294,6 +315,8 @@ fun SearchErrorScreen(
                     )
                 ) {
                     Icon(
+                        // apply the rotation value
+                        modifier = Modifier.rotate(rotation.value),
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "Retry icon",
                         tint = Color.White

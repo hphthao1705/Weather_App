@@ -38,11 +38,27 @@ class SearchViewModel @Inject constructor(
             useCase.getAllCountry().collect { apiState ->
                 when (apiState) {
                     is ApiState.Error -> {
-                        _uiState.value = SearchUiState.Error(
-                            title = "No Data Available",
-                            content = "No country data is available right now.",
-                            errorType = ErrorType.NO_INTERNET
-                        )
+                        when(apiState.code == -1) {
+                            true -> {
+                                // NO INTERNET
+                                _uiState.value = SearchUiState.Error(
+                                    title = "No Internet!",
+                                    content = "Unable to fetch weather data. Please check your connection and try again.",
+                                    errorType = ErrorType.NO_INTERNET
+                                )
+
+                                // delete the country cache
+                                PrefsUtils.deleteCountryList()
+                            }
+
+                            else -> {
+                                _uiState.value = SearchUiState.Error(
+                                    title = "No Data Available",
+                                    content = "No country data is available right now.",
+                                    errorType = ErrorType.NO_DATA
+                                )
+                            }
+                        }
                     }
 
                     is ApiState.Loading -> {
@@ -61,9 +77,8 @@ class SearchViewModel @Inject constructor(
                             _uiState.value = SearchUiState.Error(
                                 title = "No Data Available",
                                 content = "No country data is available right now.",
-                                errorType = ErrorType.NO_INTERNET
+                                errorType = ErrorType.NO_DATA
                             )
-                            "Unable to fetch weather data. Please check your connection and try again."
                         }
                     }
                 }
@@ -73,7 +88,6 @@ class SearchViewModel @Inject constructor(
 
     fun filterCountryByName(query: String? = null, isShowAll: Boolean? = false) {
         val countryJson = PrefsUtils.getCountryList()
-        "countryJson: $countryJson".debugLog()
         if(countryJson.isBlank()) {
             getAllCountry()
             return
@@ -87,7 +101,7 @@ class SearchViewModel @Inject constructor(
         }
 
         val filteredCountries = countries.filter {
-            it.name?.contains(query?.trim().orEmpty()   , ignoreCase = true) == true
+            it.name?.contains(query?.trim().orEmpty(), ignoreCase = true) == true
         }
 
         if(filteredCountries.isNotEmpty()) {
