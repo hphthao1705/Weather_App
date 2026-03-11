@@ -48,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather_app.R
+import com.example.weather_app.ui.WeatherTheme
 import com.example.weather_app.ui.home.data.CountryUiData
 import com.example.weather_app.ui.loading.shimmerLoading
 import com.example.weather_app.ui.search.state.ErrorType
@@ -55,8 +56,6 @@ import com.example.weather_app.ui.search.state.SearchUiState
 import com.example.weather_app.util.CustomFontFamily
 import com.example.weather_app.util.debugLog
 import kotlinx.coroutines.launch
-
-private val searchTheme = Color(0xFF6151C3)
 
 @Composable
 internal fun SearchScreen(
@@ -67,7 +66,7 @@ internal fun SearchScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(searchTheme)
+            .background(WeatherTheme.colors.brandColor)
             .padding(top = 26.dp)
     ) {
         BackButton(onBackButtonClick = onBackButtonClick)
@@ -237,7 +236,7 @@ fun SearchErrorScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF3F5F7)),
+            .background(WeatherTheme.colors.background),
         contentAlignment = Alignment.Center
     ) {
 
@@ -257,7 +256,7 @@ fun SearchErrorScreen(
                 Icon(
                     painter = painterResource(id = R.drawable.cloud_off),
                     contentDescription = "Error icon",
-                    tint = searchTheme,
+                    tint = WeatherTheme.colors.brandColor,
                     modifier = Modifier.size(48.dp)
                 )
             }
@@ -307,7 +306,7 @@ fun SearchErrorScreen(
                     },
                     shape = RoundedCornerShape(50),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = searchTheme
+                        containerColor = WeatherTheme.colors.brandColor
                     ),
                     contentPadding = PaddingValues(
                         horizontal = 28.dp,

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.weather_app.ui.WeatherTheme
 import com.example.weather_app.ui.weatherDetails.data.Card
 import com.example.weather_app.ui.weatherDetails.data.WeatherUiData
 import com.example.weather_app.ui.weatherDetails.state.WeatherUiState
@@ -40,10 +41,6 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
-
-// TODO - TH: this color will be handled in the next commit pls
-private val cardBackgroundColor = Color(0xFF6151C3)
-private val weatherNowText = Color(0xFF141413)
 
 @Composable
 internal fun WeatherDetailsScreen(country: String) {
@@ -72,7 +69,7 @@ internal fun WeatherDetailsScreen(country: String) {
                         fontSize = 20.sp,
                         lineHeight = 20.sp
                     ),
-                    color = weatherNowText
+                    color = WeatherTheme.colors.textPrimary
                 )
             }
         }
@@ -133,7 +130,7 @@ fun WeatherCarousel(weather: WeatherUiData) {
             ) {
                 Column(
                     modifier = Modifier
-                        .background(cardBackgroundColor)
+                        .background(WeatherTheme.colors.brandColor)
                         .padding(vertical = 20.dp, horizontal = 30.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

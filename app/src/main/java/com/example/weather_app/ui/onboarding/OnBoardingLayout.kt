@@ -30,10 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather_app.R
+import com.example.weather_app.ui.WeatherTheme
 import com.example.weather_app.util.CustomFontFamily
-
-private val onBoardingBackgroundColor = Color(0xFF6151C3)
-private val onBoardingDescriptionTextColor = Color(0xFF6B6A71)
 
 @Composable
 internal fun OnboardingScreen(
@@ -43,7 +41,7 @@ internal fun OnboardingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(onBoardingBackgroundColor)
+            .background(WeatherTheme.colors.brandColor)
     ) {
         Image(
             modifier = Modifier
@@ -80,7 +78,7 @@ private fun IntroductoryComposable(onButtonClick: () -> Unit, onLogInClick: () -
                     .padding(horizontal = 43.dp)
                     .fillMaxWidth()
                     .clip(shape = RoundedCornerShape(30.dp))
-                    .background(onBoardingBackgroundColor)
+                    .background(WeatherTheme.colors.brandColor)
                     .clickable {
                         onButtonClick()
                     },
@@ -129,7 +127,7 @@ private fun IntroductoryContent() {
         modifier = Modifier.padding(horizontal = 19.dp),
         text = stringResource(R.string.onboarding_description),
         style = TextStyle(
-            color = onBoardingDescriptionTextColor,
+            color = WeatherTheme.colors.textSecondary,
             fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
             fontSize = 14.sp,
             lineHeight = 14.sp,
@@ -144,7 +142,7 @@ private fun LogInComposable(onClick: () -> Unit) {
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
             append("${stringResource(R.string.already_have_an_account)} ")
         }
-        withStyle(style = SpanStyle(color = onBoardingBackgroundColor)) {
+        withStyle(style = SpanStyle(color = WeatherTheme.colors.brandColor)) {
             append(stringResource(R.string.log_in))
         }
     }

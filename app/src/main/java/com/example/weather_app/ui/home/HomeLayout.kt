@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -29,9 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.example.weather_app.ui.home.data.HomeWeatherUiData
 import com.example.weather_app.util.CustomFontFamily
 import androidx.hilt.navigation.compose.hiltViewModel
-
-private val cardBackgroundColor = Color(0xFF6151C3)
-private val cardTextColor = Color(0xFFFFFFFFF)
+import com.example.weather_app.ui.WeatherTheme
 
 @Composable
 internal fun HomeScreen(
@@ -126,7 +123,7 @@ private fun WeatherItem(weather: HomeWeatherUiData) {
     Row(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(20.dp))
-            .background(color = cardBackgroundColor)
+            .background(color = WeatherTheme.colors.brandColor)
             .padding(15.dp)
     ) {
         //country + state + weather condition
@@ -138,7 +135,7 @@ private fun WeatherItem(weather: HomeWeatherUiData) {
                     fontSize = 16.sp,
                     lineHeight = 16.sp,
                 ),
-                color = cardTextColor
+                color = WeatherTheme.colors.onBrandColor
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -150,7 +147,7 @@ private fun WeatherItem(weather: HomeWeatherUiData) {
                     fontSize = 28.sp,
                     lineHeight = 28.sp,
                 ),
-                color = cardTextColor
+                color = WeatherTheme.colors.onBrandColor
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -162,7 +159,7 @@ private fun WeatherItem(weather: HomeWeatherUiData) {
                     fontSize = 18.sp,
                     lineHeight = 18.sp,
                 ),
-                color = cardTextColor
+                color = WeatherTheme.colors.onBrandColor
             )
         }
 
