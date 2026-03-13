@@ -9,6 +9,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,6 +21,9 @@ import com.example.weather_app.ui.onboarding.OnboardingScreen
 import com.example.weather_app.ui.search.SearchScreen
 import com.example.weather_app.ui.weatherDetails.WeatherDetailsScreen
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.weather_app.ui.login.LoginBottomSheet
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -70,6 +75,8 @@ fun AppNavGraph() {
                     animationSpec = tween(300)
                 )
             }) {
+            var showLoginSheet by remember { mutableStateOf(false) }
+
             OnboardingScreen(
                 onButtonClick = {
                     navController.navigate("home") {
@@ -79,8 +86,17 @@ fun AppNavGraph() {
                         }
                     }
                 },
-                onLogInClick = {}
+                onLogInClick = {
+                    showLoginSheet = true
+                }
             )
+
+            if (showLoginSheet) {
+                LoginBottomSheet(
+                    showSheet = showLoginSheet,
+                    onDismiss = { showLoginSheet = false }
+                )
+            }
         }
 
         composable(
