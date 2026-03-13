@@ -92,6 +92,9 @@ androidx-contentpager = { group = "androidx.contentpager", name = "contentpager"
 
 #Google Cloud
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "google-play-services-auth" }
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials-version" }
+androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials-version" }
+androidx-google-id = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid-version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
