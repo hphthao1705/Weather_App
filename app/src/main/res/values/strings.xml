@@ -12,4 +12,18 @@
     <string name="recently_search">Recently search</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot">Forgot?</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="password_hint">••••••••</string>
+    <string name="email_hint">your@email.com</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="sign_in_content">Sign in to access your personalized weather forecast</string>
+    <string name="close">Close</string>
+    <string name="continue_w_google">Continue with Google</string>
+    <string name="or_continue_w_email">OR CONTINUE WITH EMAIL</string>
+
 </resources>
