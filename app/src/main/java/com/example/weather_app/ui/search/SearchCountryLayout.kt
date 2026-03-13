@@ -193,6 +193,7 @@ private fun SearchResultsScreen(countries: List<CountryUiData>, onItemClick: (Co
     ) {
         items(
             count = countries.size,
+            contentType = { "country_item" },
             key = { index -> countries[index] }) { index ->
             val country = countries.getOrNull(index)
             SearchResultItem(country = country, onItemClick)
