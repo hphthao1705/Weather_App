@@ -28,7 +28,7 @@ androixHilt = "1.2.0"
 
 coil-version = "2.7.0"
 
-#retrofit2 = "2.9.0"
+retrofit2 = "2.9.0"
 retrofit2ConverterGson = "2.9.0"
 firebaseAppdistributionGradle = "5.1.1"
 
@@ -42,7 +42,8 @@ credentials-version = "1.2.2"
 googleid-version = "1.1.0"
 firebase-auth-version = "24.0.1"
 
-ksp = "2.1.20-1.0.29"  # Or the latest 2.1.20-x.x.x release
+ksp = "2.1.20-1.0.32"
+
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -78,7 +79,7 @@ dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-andro
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androixHilt"}
 
 #Retrofit2
-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version = "retrofit2" }
+retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2ConverterGson" }
 firebase-appdistribution-gradle = { group = "com.google.firebase", name = "firebase-appdistribution-gradle", version.ref = "firebaseAppdistributionGradle" }
 
@@ -104,4 +105,3 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization"}
-

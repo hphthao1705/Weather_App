@@ -1,16 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-
-    //Add this
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
-    alias(libs.plugins.)
+    alias(libs.plugins.ksp)
     id("com.google.dagger.hilt.android")
-//    id("kotlin-kapt") //for 'kapt'
-
-    //Serialization
     alias(libs.plugins.jetbrains.kotlin.serialization)
-
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
 }
