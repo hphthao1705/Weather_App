@@ -310,7 +310,7 @@ private fun SignUpSection() {
 
 @Preview
 @Composable
-private fun preview() {
+private fun Preview() {
     LoginBottomSheet(
         onDismiss = {}
     )

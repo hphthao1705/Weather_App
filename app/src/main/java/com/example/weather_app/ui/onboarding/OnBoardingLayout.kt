@@ -21,10 +21,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -142,8 +144,13 @@ private fun LogInComposable(onClick: () -> Unit) {
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
             append("${stringResource(R.string.already_have_an_account)} ")
         }
-        withStyle(style = SpanStyle(color = WeatherTheme.colors.brandColor)) {
-            append(stringResource(R.string.log_in))
+        withLink(LinkAnnotation.Clickable(
+            tag = "login",
+            linkInteractionListener = { onClick() }
+        )) {
+            withStyle(style = SpanStyle(color = WeatherTheme.colors.brandColor)) {
+                append(stringResource(R.string.log_in))
+            }
         }
     }
 

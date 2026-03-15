@@ -3,7 +3,6 @@ package com.example.weather_app
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -27,7 +26,7 @@ import androidx.compose.runtime.setValue
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel by viewModels<MainViewModel>()
+//    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +92,6 @@ fun AppNavGraph() {
 
             if (showLoginSheet) {
                 LoginBottomSheet(
-                    showSheet = showLoginSheet,
                     onDismiss = { showLoginSheet = false }
                 )
             }

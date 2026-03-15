@@ -31,6 +31,9 @@ data class WeatherColorScheme(
     val textSecondary: Color = Color.Unspecified,
     val backgroundError: Color = Color.Unspecified,
     val background: Color = Color.Unspecified,
+    val whiteDivider: Color = Color.Unspecified,
+    val googleButtonColor: Color = Color.Unspecified,
+    val onGoogleButtonColor: Color = Color.Unspecified
 )
 
 private val weatherLightColors = WeatherColorScheme(
@@ -38,8 +41,11 @@ private val weatherLightColors = WeatherColorScheme(
     textSecondary = Color(0xFF6B6A71),
     brandColor = Color(0xFF6151C3),
     onBrandColor = Color(0xFFFFFFFFF),
-    background = Color(0xFF070707),
-    backgroundError = Color(0xFFF8F8F8)
+    background = Color(0xFFF8F8F8),
+    backgroundError = Color(0xFFF8F8F8),
+    whiteDivider = Color(0xFFFFFFFF),
+    googleButtonColor = Color(0xFFEA4335),
+    onGoogleButtonColor = Color(0xFFFFFFFF)
 )
 
 private val weatherDarkColors = WeatherColorScheme(
@@ -47,8 +53,11 @@ private val weatherDarkColors = WeatherColorScheme(
     textSecondary = Color(0xFF6B6A71),
     brandColor = Color(0xFF6151C3),
     onBrandColor = Color(0xFF141413),
-    background = Color(0xFFF8F8F8),
-    backgroundError = Color(0xFFF8F8F8)
+    background = Color(0xFF070707),
+    backgroundError = Color(0xFFF8F8F8),
+    whiteDivider = Color(0xFF141413),
+    googleButtonColor = Color(0xFFEA4335),
+    onGoogleButtonColor = Color(0xFFFFFFFF)
 )
 
 val LocalWeatherColorScheme = staticCompositionLocalOf {
