@@ -42,11 +42,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 
     //Add this
@@ -55,9 +55,10 @@ android {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.0" //Check latest version
-    }
+    // move to plugins: id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = "1.5.0" //Check latest version
+//    }
 
     // Solve: 13 files found with path 'META-INF/INDEX.LIST' from inputs:
     packaging {
