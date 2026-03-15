@@ -4,9 +4,9 @@ plugins {
 
     //Add this
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.)
     id("com.google.dagger.hilt.android")
-    id("kotlin-kapt") //for 'kapt'
+//    id("kotlin-kapt") //for 'kapt'
 
     //Serialization
     alias(libs.plugins.jetbrains.kotlin.serialization)
@@ -112,7 +112,7 @@ dependencies {
 
     // Hilt
     implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.android.compiler)
+//    ksp(libs.dagger.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     // Retrofit2
@@ -134,4 +134,7 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.google.id)
+
+    // remove kapt, move to ksp
+    ksp(libs.dagger.hilt.android.compiler)
 }

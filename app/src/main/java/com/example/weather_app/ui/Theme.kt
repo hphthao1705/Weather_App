@@ -6,6 +6,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
+// TODO - TH: add comment for this file
 object WeatherTheme {
     val colors: WeatherColorScheme
         @Composable
