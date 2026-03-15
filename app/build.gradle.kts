@@ -128,6 +128,7 @@ dependencies {
     implementation(libs.shimmer.android)
 
     // Google Cloud Console
+    implementation(libs.firebase.auth.ktx)
     implementation(libs.play.services.auth)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.androidx.credentials)
