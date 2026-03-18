@@ -53,10 +53,14 @@ internal fun OnboardingScreen(
             contentDescription = "World image"
         )
 
+        Spacer(modifier = Modifier.weight(1f))
+
         IntroductoryComposable(
             onButtonClick = { onButtonClick() },
             onLogInClick = { onLogInClick() }
         )
+
+        Spacer(modifier = Modifier.fillMaxHeight(0.2f))
     }
 }
 
