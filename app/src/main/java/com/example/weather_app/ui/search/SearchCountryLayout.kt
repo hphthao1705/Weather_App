@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -67,6 +69,9 @@ internal fun SearchScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(WeatherTheme.colors.brandColor)
+            // automatically pushes content below the camera/status bar and navigation bar
+            .statusBarsPadding()
+            .navigationBarsPadding()
             .padding(top = 26.dp)
     ) {
         BackButton(onBackButtonClick = onBackButtonClick)
