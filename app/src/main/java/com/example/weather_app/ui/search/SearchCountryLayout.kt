@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -58,6 +59,7 @@ import com.example.weather_app.ui.search.state.SearchUiState
 import com.example.weather_app.util.CustomFontFamily
 import com.example.weather_app.util.debugLog
 import kotlinx.coroutines.launch
+import com.example.weather_app.util.WeatherToast
 
 @Composable
 internal fun SearchScreen(
@@ -65,6 +67,8 @@ internal fun SearchScreen(
     onBackButtonClick: () -> Unit,
     onCountryClick: (CountryUiData) -> Unit
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -74,6 +78,7 @@ internal fun SearchScreen(
             .navigationBarsPadding()
             .padding(top = 26.dp)
     ) {
+        Spacer(modifier = Modifier.height(5.dp))
         BackButton(onBackButtonClick = onBackButtonClick)
         Spacer(modifier = Modifier.height(20.dp))
         SearchSection(onTyping = { query ->
@@ -101,13 +106,19 @@ internal fun SearchScreen(
                 )
             }
             is SearchUiState.Success -> {
-                SearchResultsScreen(countries = (uiState as SearchUiState.Success).data, onItemClick = { country: CountryUiData? ->
-                    if(country != null) {
-                        onCountryClick(country)
-                    } else {
-                        // TODO - TH: handle null here
+                SearchResultsScreen(
+                    countries = (uiState as SearchUiState.Success).data,
+                    onItemClick = { country: CountryUiData? ->
+                        if (country != null) {
+                            onCountryClick(country)
+                        } else {
+                            WeatherToast.showError(context = context, errorType = ErrorType.NO_DATA)
+                        }
+
+                        // TODO: testing error only
+//                        WeatherToast.showError(context = context, errorType = ErrorType.NO_DATA)
                     }
-                })
+                )
             }
         }
     }
@@ -166,10 +177,10 @@ private fun SearchSection(onTyping:(String) -> Unit) {
         },
         placeholder = {
             Text(
-                text = "Search your country",
+                text = "Your country name",
                 style = TextStyle(
                     fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
-                    fontSize = 14.sp,
+                    fontSize = 17.sp,
                     color = Color.Gray
                 )
             )
@@ -221,7 +232,7 @@ private fun SearchResultItem(country: CountryUiData?, onItemClick: (CountryUiDat
             text = country?.name.orEmpty(),
             style = TextStyle(
                 fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
-                fontSize = 14.sp,
+                fontSize = 17.sp,
                 color = Color.Gray
             )
         )
