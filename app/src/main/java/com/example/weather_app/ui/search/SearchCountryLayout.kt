@@ -126,7 +126,7 @@ private fun BackButton(onBackButtonClick: () -> Unit) {
             modifier = Modifier
                 .align(Alignment.CenterStart) // stick to the left
                 .padding(start = 20.dp)
-                .size(32.dp)
+                .size(38.dp)
                 .clip(CircleShape)
                 .clickable { onBackButtonClick() }
                 // padding inside
