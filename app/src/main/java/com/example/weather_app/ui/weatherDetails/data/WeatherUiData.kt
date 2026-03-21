@@ -29,6 +29,6 @@ fun WeatherResponse.toWeatherUiData() : WeatherUiData {
         country = this.location?.country.orEmpty(),
         tempC = this.current?.tempC.orEmpty(),
         tempF = this.current?.tempF.toString(),
-        cards = listOf(card1, card1, card1, card1, card1)
+        cards = listOf(card1, card1, card1)
     )
 }
