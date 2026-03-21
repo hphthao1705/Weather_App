@@ -23,6 +23,7 @@ import com.example.weather_app.ui.login.LoginBottomSheet
 import com.example.weather_app.ui.onboarding.OnboardingScreen
 import com.example.weather_app.ui.search.SearchScreen
 import com.example.weather_app.ui.weatherDetails.WeatherDetailsScreen
+import com.example.weather_app.util.debugLog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -165,7 +166,9 @@ fun AppNavGraph() {
             }) {
             SearchScreen(
                 viewModel = hiltViewModel(),
-                onBackButtonClick = { navController.popBackStack() },
+                onBackButtonClick = {
+                    navController.popBackStack()
+                },
                 onCountryClick = { country ->
                     navController.navigate("weatherDetails/${country.name}")
                 }
@@ -202,7 +205,12 @@ fun AppNavGraph() {
                 )
             }) { backStackEntry ->
             val country = backStackEntry.arguments?.getString("country")
-            WeatherDetailsScreen(country = country.orEmpty())
+            WeatherDetailsScreen(
+                country = country.orEmpty(),
+                onBackButtonClick = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
