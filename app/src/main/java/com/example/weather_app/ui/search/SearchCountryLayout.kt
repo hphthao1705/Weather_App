@@ -72,11 +72,11 @@ internal fun SearchScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(WeatherTheme.colors.brandColor)
             // automatically pushes content below the camera/status bar and navigation bar
             .statusBarsPadding()
             .navigationBarsPadding()
-            .padding(top = 26.dp)
+            .background(WeatherTheme.colors.brandColor)
+            .padding(top = 43.dp)
     ) {
         Spacer(modifier = Modifier.height(5.dp))
         BackButton(onBackButtonClick = onBackButtonClick)
