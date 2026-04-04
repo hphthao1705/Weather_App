@@ -8,10 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -19,8 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weather_app.ui.WeatherAppTheme
 import com.example.weather_app.ui.home.HomeScreen
-import com.example.weather_app.ui.login.LoginBottomSheet
-import com.example.weather_app.ui.onboarding.OnboardingScreen
+import com.example.weather_app.ui.onboarding.OnboardingFragment
 import com.example.weather_app.ui.search.SearchScreen
 import com.example.weather_app.ui.weatherDetails.WeatherDetailsScreen
 import com.example.weather_app.util.enterSlideIn
@@ -50,6 +45,28 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        // show OnboardingFragment (no back-stack restore)
+        if (savedInstanceState == null) {
+            val fragment = OnboardingFragment.newInstance(
+                onButtonClick = {
+                    // switch to the Compose NavHost once onboarding is done
+                    supportFragmentManager.findFragmentByTag(OnboardingFragment.TAG)?.let { f ->
+                        supportFragmentManager.beginTransaction()
+                            .remove(f)
+                            .commitNow()
+                    }
+
+                    showComposeNavGraph()
+                },
+            )
+
+            supportFragmentManager.beginTransaction()
+                .replace(android.R.id.content, fragment, OnboardingFragment.TAG)
+                .commit()
+        }
+    }
+
+    private fun showComposeNavGraph() {
         setContent {
             WeatherAppTheme {
                 AppNavGraph()
@@ -63,35 +80,6 @@ fun AppNavGraph() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "onboarding") {
-        composable("onboarding",
-            enterTransition = enterSlideIn(),
-            exitTransition = exitSlideOut(),
-            popEnterTransition = popEnterSlideIn(),
-            popExitTransition = popExitSlideOut()
-        ) {
-            var showLoginSheet by remember { mutableStateOf(false) }
-
-            OnboardingScreen(
-                onButtonClick = {
-                    navController.navigate("home") {
-                        // remove Onboarding from back stack
-                        popUpTo("onboarding") {
-                            inclusive = true
-                        }
-                    }
-                },
-                onLogInClick = {
-                    showLoginSheet = true
-                }
-            )
-
-            if (showLoginSheet) {
-                LoginBottomSheet(
-                    onDismiss = { showLoginSheet = false }
-                )
-            }
-        }
-
         composable(
             "home",
             enterTransition = enterSlideIn(),
