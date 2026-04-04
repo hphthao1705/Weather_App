@@ -7,9 +7,6 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +23,10 @@ import com.example.weather_app.ui.login.LoginBottomSheet
 import com.example.weather_app.ui.onboarding.OnboardingScreen
 import com.example.weather_app.ui.search.SearchScreen
 import com.example.weather_app.ui.weatherDetails.WeatherDetailsScreen
+import com.example.weather_app.util.enterSlideIn
+import com.example.weather_app.util.exitSlideOut
+import com.example.weather_app.util.popEnterSlideIn
+import com.example.weather_app.util.popExitSlideOut
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         )
         supportActionBar?.hide()
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             WeatherAppTheme {
                 AppNavGraph()
@@ -62,34 +64,11 @@ fun AppNavGraph() {
 
     NavHost(navController = navController, startDestination = "onboarding") {
         composable("onboarding",
-            enterTransition = {
-                // Open screen from right to left
-                slideInHorizontally(
-                    initialOffsetX = { fullWidth -> fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            exitTransition = {
-                // Exit from the screen
-                slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> -fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            popEnterTransition = {
-                // Come back to this screen => back press
-                slideInHorizontally(
-                    initialOffsetX = { fullWidth -> -fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            popExitTransition = {
-                // When popping away from this screen
-                slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> fullWidth },
-                    animationSpec = tween(300)
-                )
-            }) {
+            enterTransition = enterSlideIn(),
+            exitTransition = exitSlideOut(),
+            popEnterTransition = popEnterSlideIn(),
+            popExitTransition = popExitSlideOut()
+        ) {
             var showLoginSheet by remember { mutableStateOf(false) }
 
             OnboardingScreen(
@@ -115,67 +94,19 @@ fun AppNavGraph() {
 
         composable(
             "home",
-            enterTransition = {
-                // Open screen from right to left
-                slideInHorizontally(
-                    initialOffsetX = { fullWidth -> fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            exitTransition = {
-                // Exit from the screen
-                slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> -fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            popEnterTransition = {
-                // Come back to this screen => back press
-                slideInHorizontally(
-                    initialOffsetX = { fullWidth -> -fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            popExitTransition = {
-                // When popping away from this screen
-                slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> fullWidth },
-                    animationSpec = tween(300)
-                )
-            }) {
+            enterTransition = enterSlideIn(),
+            exitTransition = exitSlideOut(),
+            popEnterTransition = popEnterSlideIn(),
+            popExitTransition = popExitSlideOut()) {
             HomeScreen(onSearchClick = { navController.navigate("search") })
         }
 
         composable(
             "search",
-            enterTransition = {
-                // Open screen from right to left
-                slideInHorizontally(
-                    initialOffsetX = { fullWidth -> fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            exitTransition = {
-                // Exit from the screen
-                slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> -fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            popEnterTransition = {
-                // Come back to this screen => back press
-                slideInHorizontally(
-                    initialOffsetX = { fullWidth -> -fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            popExitTransition = {
-                // When popping away from this screen
-                slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> fullWidth },
-                    animationSpec = tween(300)
-                )
-            }) {
+            enterTransition = enterSlideIn(),
+            exitTransition = exitSlideOut(),
+            popEnterTransition = popEnterSlideIn(),
+            popExitTransition = popExitSlideOut()) {
             SearchScreen(
                 viewModel = hiltViewModel(),
                 onBackButtonClick = {
@@ -188,34 +119,11 @@ fun AppNavGraph() {
         }
 
         composable(
-            route = "weatherDetails/{country}", enterTransition = {
-                // Open screen from right to left
-                slideInHorizontally(
-                    initialOffsetX = { fullWidth -> fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            exitTransition = {
-                // Exit from the screen
-                slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> -fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            popEnterTransition = {
-                // Come back to this screen => back press
-                slideInHorizontally(
-                    initialOffsetX = { fullWidth -> -fullWidth },
-                    animationSpec = tween(300)
-                )
-            },
-            popExitTransition = {
-                // When popping away from this screen
-                slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> fullWidth },
-                    animationSpec = tween(300)
-                )
-            }) { backStackEntry ->
+            route = "weatherDetails/{country}",
+            enterTransition = enterSlideIn(),
+            exitTransition = exitSlideOut(),
+            popEnterTransition = popEnterSlideIn(),
+            popExitTransition = popExitSlideOut()) { backStackEntry ->
             val country = backStackEntry.arguments?.getString("country")
             WeatherDetailsScreen(
                 country = country.orEmpty(),
