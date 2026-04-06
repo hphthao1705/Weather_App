@@ -163,7 +163,7 @@ private fun BackButton(onBackButtonClick: () -> Unit) {
 
 @Composable
 private fun SearchSection(onTyping:(String) -> Unit) {
-    var searchText by remember { mutableStateOf("") }
+   var searchText by remember { mutableStateOf("") }
 
     TextField(
         modifier = Modifier
