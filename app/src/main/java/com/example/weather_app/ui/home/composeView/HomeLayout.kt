@@ -3,7 +3,6 @@ package com.example.weather_app.ui.home.composeView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import com.example.weather_app.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,11 +24,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weather_app.ui.home.data.HomeWeatherUiData
-import com.example.weather_app.util.CustomFontFamily
+import com.example.weather_app.R
 import com.example.weather_app.ui.WeatherTheme
+import com.example.weather_app.ui.home.data.HomeWeatherUiData
+import com.example.weather_app.util.AppDimension
+import com.example.weather_app.util.CustomFontFamily
 
 @Composable
 internal fun HomeScreen(
@@ -40,16 +40,16 @@ internal fun HomeScreen(
         // automatically pushes content below the camera/status bar and navigation bar
         .statusBarsPadding()
         .navigationBarsPadding()
-        .padding(horizontal = 26.dp)
+        .padding(horizontal = AppDimension.dimension_26)
     ) {
         HeaderSection(userName = "Thao Ho", onSearchClick = onSearchClick)
 
-        Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_26))
 
         //Current location item
         WeatherItem(weather = HomeWeatherUiData(state = "Ho Chi Minh", country = "Viet Nam", weatherCondition = "Mostly sunny", temperatureCelsius = 17))
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_50))
 
         Text(
             text = stringResource(R.string.recently_search),
@@ -69,25 +69,25 @@ internal fun HomeScreen(
 private fun HeaderSection(userName: String, onSearchClick: () -> Unit ) {
     Row(modifier = Modifier
         .fillMaxWidth()
-        .padding(top = 43.dp)
+        .padding(top = AppDimension.dimension_43)
     ) {
         WelcomeText(modifier = Modifier.weight(2f), userName = userName)
 
-        Spacer(modifier = Modifier.width(33.dp))
+        Spacer(modifier = Modifier.width(AppDimension.dimension_33))
 
         Image(
             modifier = Modifier
-                .size(50.dp)
+                .size(AppDimension.dimension_50)
                 .clip(CircleShape)
                 .clickable { onSearchClick() },
             painter = painterResource(R.drawable.search_button),
             contentDescription = "Search Button"
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(AppDimension.dimension_8))
 
         Image(
-            modifier = Modifier.size(50.dp),
+            modifier = Modifier.size(AppDimension.dimension_50),
             painter = painterResource(R.drawable.web_button) ,
             contentDescription = "Website Button"
         )
@@ -107,7 +107,7 @@ private fun WelcomeText(userName: String, modifier: Modifier) {
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_8))
 
         Text(
             text = stringResource(R.string.discover_the_weather),
@@ -125,9 +125,9 @@ private fun WelcomeText(userName: String, modifier: Modifier) {
 private fun WeatherItem(weather: HomeWeatherUiData) {
     Row(
         modifier = Modifier
-            .clip(shape = RoundedCornerShape(20.dp))
+            .clip(shape = RoundedCornerShape(AppDimension.dimension_20))
             .background(color = WeatherTheme.colors.brandColor)
-            .padding(15.dp)
+            .padding(AppDimension.dimension_15)
     ) {
         //country + state + weather condition
         Column(modifier = Modifier.weight(1f)) {
@@ -141,7 +141,7 @@ private fun WeatherItem(weather: HomeWeatherUiData) {
                 color = WeatherTheme.colors.onBrandColor
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(AppDimension.dimension_8))
 
             Text(
                 text = weather.state,
@@ -153,7 +153,7 @@ private fun WeatherItem(weather: HomeWeatherUiData) {
                 color = WeatherTheme.colors.onBrandColor
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(AppDimension.dimension_20))
 
             Text(
                 text = weather.weatherCondition,

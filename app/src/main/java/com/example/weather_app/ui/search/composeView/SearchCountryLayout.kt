@@ -1,4 +1,4 @@
-package com.example.weather_app.ui.search
+package com.example.weather_app.ui.search.composeView
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -48,14 +48,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather_app.R
 import com.example.weather_app.ui.WeatherTheme
 import com.example.weather_app.ui.home.data.CountryUiData
 import com.example.weather_app.ui.loading.shimmerLoading
+import com.example.weather_app.ui.search.SearchViewModel
 import com.example.weather_app.ui.search.state.ErrorType
 import com.example.weather_app.ui.search.state.SearchUiState
+import com.example.weather_app.util.AppDimension
 import com.example.weather_app.util.CustomFontFamily
 import com.example.weather_app.util.debugLog
 import kotlinx.coroutines.launch
@@ -76,11 +77,11 @@ internal fun SearchScreen(
             .statusBarsPadding()
             .navigationBarsPadding()
             .background(WeatherTheme.colors.brandColor)
-            .padding(top = 43.dp)
+            .padding(top = AppDimension.dimension_43)
     ) {
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_5))
         BackButton(onBackButtonClick = onBackButtonClick)
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_20))
         SearchSection(onTyping = { query ->
             "query: $query".debugLog()
             if (query.length < 3) {
@@ -89,7 +90,7 @@ internal fun SearchScreen(
             }
             viewModel.filterCountryByName(query = query)
         })
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_20))
 
         val uiState by viewModel.uiState.collectAsState()
         when(uiState) {
@@ -129,19 +130,19 @@ private fun BackButton(onBackButtonClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .padding(vertical = AppDimension.dimension_10),
         contentAlignment = Alignment.Center // centers the text by default
     ) {
         // Back Icon (left aligned)
         Icon(
             modifier = Modifier
                 .align(Alignment.CenterStart) // stick to the left
-                .padding(start = 20.dp)
-                .size(38.dp)
+                .padding(start = AppDimension.dimension_20)
+                .size(AppDimension.dimension_38)
                 .clip(CircleShape)
                 .clickable { onBackButtonClick() }
                 // padding inside
-                .padding(8.dp),
+                .padding(AppDimension.dimension_8),
             painter = painterResource(id = R.drawable.ic_back_button),
             contentDescription = "Icon back",
             tint = Color.White
@@ -167,8 +168,8 @@ private fun SearchSection(onTyping:(String) -> Unit) {
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .height(55.dp)
+            .padding(horizontal = AppDimension.dimension_10)
+            .height(AppDimension.dimension_55)
             .clip(CircleShape),
         value = searchText,
         onValueChange = { value ->
@@ -205,7 +206,7 @@ private fun SearchResultsScreen(countries: List<CountryUiData>, onItemClick: (Co
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
 //        contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp) // space between each item
+        verticalArrangement = Arrangement.spacedBy(AppDimension.dimension_4) // space between each item
     ) {
         items(
             count = countries.size,
@@ -228,7 +229,7 @@ private fun SearchResultItem(country: CountryUiData?, onItemClick: (CountryUiDat
             }
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp),
+            modifier = Modifier.padding(horizontal = AppDimension.dimension_20, vertical = AppDimension.dimension_5),
             text = country?.name.orEmpty(),
             style = TextStyle(
                 fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
@@ -259,13 +260,13 @@ fun SearchErrorScreen(
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 24.dp)
+            modifier = Modifier.padding(horizontal = AppDimension.dimension_24)
         ) {
 
             // Icon circle
             Box(
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(AppDimension.dimension_120)
                     .clip(CircleShape)
                     .background(Color.White),
                 contentAlignment = Alignment.Center
@@ -274,11 +275,11 @@ fun SearchErrorScreen(
                     painter = painterResource(id = R.drawable.cloud_off),
                     contentDescription = "Error icon",
                     tint = WeatherTheme.colors.brandColor,
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(AppDimension.dimension_48)
                 )
             }
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(AppDimension.dimension_28))
 
             Text(
                 text = title,
@@ -291,7 +292,7 @@ fun SearchErrorScreen(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(AppDimension.dimension_12))
 
             Text(
                 text = message,
@@ -305,7 +306,7 @@ fun SearchErrorScreen(
             )
 
             if(showRetry) {
-                Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(AppDimension.dimension_28))
 
                 Button(
                     onClick = {
@@ -326,8 +327,8 @@ fun SearchErrorScreen(
                         containerColor = WeatherTheme.colors.brandColor
                     ),
                     contentPadding = PaddingValues(
-                        horizontal = 28.dp,
-                        vertical = 12.dp
+                        horizontal = AppDimension.dimension_28,
+                        vertical = AppDimension.dimension_12
                     )
                 ) {
                     Icon(
@@ -338,7 +339,7 @@ fun SearchErrorScreen(
                         tint = Color.White
                     )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(AppDimension.dimension_8))
 
                     Text(
                         text = "Retry",
@@ -357,7 +358,7 @@ fun SearchErrorScreen(
 private fun SearchLoadingScreen() {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(AppDimension.dimension_4)
     ) {
         items(10) {
             SearchResultItemLoading()
@@ -375,7 +376,7 @@ private fun SearchResultItemLoading() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(35.dp)
+                .height(AppDimension.dimension_35)
                 .shimmerLoading()
         )
     }

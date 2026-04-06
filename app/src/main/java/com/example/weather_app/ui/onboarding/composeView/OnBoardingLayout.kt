@@ -1,4 +1,4 @@
-package com.example.weather_app.ui.onboarding
+package com.example.weather_app.ui.onboarding.composeView
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,10 +29,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather_app.R
 import com.example.weather_app.ui.WeatherTheme
+import com.example.weather_app.util.AppDimension
 import com.example.weather_app.util.CustomFontFamily
 
 @Composable
@@ -68,8 +68,8 @@ internal fun OnboardingScreen(
 private fun IntroductoryComposable(onButtonClick: () -> Unit, onLogInClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .padding(20.dp)
-            .clip(shape = RoundedCornerShape(30.dp))
+            .padding(AppDimension.dimension_20)
+            .clip(shape = RoundedCornerShape(AppDimension.dimension_30))
             .background(color = MaterialTheme.colorScheme.background)
     ) {
         Column(
@@ -77,13 +77,13 @@ private fun IntroductoryComposable(onButtonClick: () -> Unit, onLogInClick: () -
         ) {
             IntroductoryContent()
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(AppDimension.dimension_30))
 
             Box(
                 modifier = Modifier
-                    .padding(horizontal = 43.dp)
+                    .padding(horizontal = AppDimension.dimension_43)
                     .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(30.dp))
+                    .clip(shape = RoundedCornerShape(AppDimension.dimension_30))
                     .background(WeatherTheme.colors.brandColor)
                     .clickable {
                         onButtonClick()
@@ -91,7 +91,7 @@ private fun IntroductoryComposable(onButtonClick: () -> Unit, onLogInClick: () -
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    modifier = Modifier.padding(vertical = 21.dp),
+                    modifier = Modifier.padding(vertical = AppDimension.dimension_20),
                     text = stringResource(R.string.get_started_button),
                     style = TextStyle(
                         fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
@@ -102,21 +102,21 @@ private fun IntroductoryComposable(onButtonClick: () -> Unit, onLogInClick: () -
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(AppDimension.dimension_20))
 
             LogInComposable(onClick = { onLogInClick() })
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(AppDimension.dimension_24))
         }
     }
 }
 
 @Composable
 private fun IntroductoryContent() {
-    Spacer(modifier = Modifier.height(45.dp))
+    Spacer(modifier = Modifier.height(AppDimension.dimension_45))
 
     Text(
-        modifier = Modifier.padding(horizontal = 22.dp),
+        modifier = Modifier.padding(horizontal = AppDimension.dimension_22),
         text = stringResource(R.string.onboarding_title),
         style = TextStyle(
             color = MaterialTheme.colorScheme.onBackground,
@@ -127,10 +127,10 @@ private fun IntroductoryContent() {
         ),
     )
 
-    Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(AppDimension.dimension_16))
 
     Text(
-        modifier = Modifier.padding(horizontal = 19.dp),
+        modifier = Modifier.padding(horizontal = AppDimension.dimension_19),
         text = stringResource(R.string.onboarding_description),
         style = TextStyle(
             color = WeatherTheme.colors.textSecondary,
@@ -160,7 +160,7 @@ private fun LogInComposable(onClick: () -> Unit) {
 
     Text(
         text = text,
-        modifier = Modifier.padding(horizontal = 19.dp),
+        modifier = Modifier.padding(horizontal = AppDimension.dimension_19),
         style = TextStyle(
             fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
             fontSize = 14.sp,
@@ -168,10 +168,4 @@ private fun LogInComposable(onClick: () -> Unit) {
             textAlign = TextAlign.Center
         )
     )
-}
-
-@Preview
-@Composable
-private fun Preview() {
-//    OnboardingScreen(onButtonClick = {}, onLogInClick = {})
 }
