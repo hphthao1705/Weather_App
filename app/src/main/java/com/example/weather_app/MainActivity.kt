@@ -8,14 +8,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weather_app.ui.WeatherAppTheme
-import com.example.weather_app.ui.home.HomeScreen
-import com.example.weather_app.ui.onboarding.OnboardingFragment
+import com.example.weather_app.ui.home.composeView.HomeScreen
+import com.example.weather_app.ui.login.LoginBottomSheet
+import com.example.weather_app.ui.onboarding.OnboardingScreen  // ← must be a @Composable, see note
 import com.example.weather_app.ui.search.SearchScreen
 import com.example.weather_app.ui.weatherDetails.WeatherDetailsScreen
 import com.example.weather_app.util.enterSlideIn
@@ -26,12 +31,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-//    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // handle camera cutout
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
@@ -40,33 +43,11 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
-
         )
         supportActionBar?.hide()
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        // show OnboardingFragment (no back-stack restore)
-        if (savedInstanceState == null) {
-            val fragment = OnboardingFragment.newInstance(
-                onButtonClick = {
-                    // switch to the Compose NavHost once onboarding is done
-                    supportFragmentManager.findFragmentByTag(OnboardingFragment.TAG)?.let { f ->
-                        supportFragmentManager.beginTransaction()
-                            .remove(f)
-                            .commitNow()
-                    }
-
-                    showComposeNavGraph()
-                },
-            )
-
-            supportFragmentManager.beginTransaction()
-                .replace(android.R.id.content, fragment, OnboardingFragment.TAG)
-                .commit()
-        }
-    }
-
-    private fun showComposeNavGraph() {
+        // Single entry point — no more manual fragment transactions
         setContent {
             WeatherAppTheme {
                 AppNavGraph()
@@ -79,45 +60,80 @@ class MainActivity : AppCompatActivity() {
 fun AppNavGraph() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "onboarding") {
+    NavHost(
+        navController = navController,
+        startDestination = "onboarding"
+    ) {
+
+        // 1. Onboarding — start destination, removed from back stack on proceed
+        composable(
+            "onboarding",
+            enterTransition = enterSlideIn(),
+            exitTransition = exitSlideOut(),
+            popEnterTransition = popEnterSlideIn(),
+            popExitTransition = popExitSlideOut()
+        ) {
+            var showLoginSheet by remember { mutableStateOf(false) }
+
+            OnboardingScreen(
+                onButtonClick = {
+                    navController.navigate("home") {
+                        // Clear onboarding off the back stack so back button doesn't return to it
+                        popUpTo("onboarding") { inclusive = true }
+                    }
+                },
+                onLogInClick = { showLoginSheet = true }
+            )
+
+            if (showLoginSheet) {
+                LoginBottomSheet(
+                    onDismiss = { showLoginSheet = false }
+                )
+            }
+        }
+
+        // 2. Home
         composable(
             "home",
             enterTransition = enterSlideIn(),
             exitTransition = exitSlideOut(),
             popEnterTransition = popEnterSlideIn(),
-            popExitTransition = popExitSlideOut()) {
-            HomeScreen(onSearchClick = { navController.navigate("search") })
+            popExitTransition = popExitSlideOut()
+        ) {
+            HomeScreen(
+                onSearchClick = { navController.navigate("search") }
+            )
         }
 
+        // 3. Search
         composable(
             "search",
             enterTransition = enterSlideIn(),
             exitTransition = exitSlideOut(),
             popEnterTransition = popEnterSlideIn(),
-            popExitTransition = popExitSlideOut()) {
+            popExitTransition = popExitSlideOut()
+        ) {
             SearchScreen(
                 viewModel = hiltViewModel(),
-                onBackButtonClick = {
-                    navController.popBackStack()
-                },
+                onBackButtonClick = { navController.popBackStack() },
                 onCountryClick = { country ->
                     navController.navigate("weatherDetails/${country.name}")
                 }
             )
         }
 
+        // 4. Weather Details
         composable(
             route = "weatherDetails/{country}",
             enterTransition = enterSlideIn(),
             exitTransition = exitSlideOut(),
             popEnterTransition = popEnterSlideIn(),
-            popExitTransition = popExitSlideOut()) { backStackEntry ->
+            popExitTransition = popExitSlideOut()
+        ) { backStackEntry ->
             val country = backStackEntry.arguments?.getString("country")
             WeatherDetailsScreen(
                 country = country.orEmpty(),
-                onBackButtonClick = {
-                    navController.popBackStack()
-                }
+                onBackButtonClick = { navController.popBackStack() }
             )
         }
     }
