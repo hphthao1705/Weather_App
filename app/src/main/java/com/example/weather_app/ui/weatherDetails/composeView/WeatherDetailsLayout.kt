@@ -1,4 +1,4 @@
-package com.example.weather_app.ui.weatherDetails
+package com.example.weather_app.ui.weatherDetails.composeView
 
 import android.os.Build
 import androidx.compose.foundation.background
@@ -60,6 +60,7 @@ import kotlin.math.sin
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import androidx.compose.ui.graphics.asComposeRenderEffect
+import com.example.weather_app.ui.weatherDetails.WeatherViewModel
 
 @Composable
 internal fun WeatherDetailsScreen(country: String, onBackButtonClick: () -> Unit) {
