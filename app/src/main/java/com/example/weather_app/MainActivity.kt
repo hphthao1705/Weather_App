@@ -20,9 +20,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.weather_app.ui.WeatherAppTheme
 import com.example.weather_app.ui.home.composeView.HomeScreen
 import com.example.weather_app.ui.login.LoginBottomSheet
-import com.example.weather_app.ui.onboarding.OnboardingScreen  // ← must be a @Composable, see note
-import com.example.weather_app.ui.search.SearchScreen
-import com.example.weather_app.ui.weatherDetails.WeatherDetailsScreen
+import com.example.weather_app.ui.onboarding.composeView.OnboardingScreen
+import com.example.weather_app.ui.search.composeView.SearchScreen
+import com.example.weather_app.ui.weatherDetails.composeView.WeatherDetailsScreen
 import com.example.weather_app.util.enterSlideIn
 import com.example.weather_app.util.exitSlideOut
 import com.example.weather_app.util.popEnterSlideIn
