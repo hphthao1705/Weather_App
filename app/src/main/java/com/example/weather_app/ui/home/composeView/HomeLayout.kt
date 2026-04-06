@@ -1,4 +1,4 @@
-package com.example.weather_app.ui.home
+package com.example.weather_app.ui.home.composeView
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather_app.ui.home.data.HomeWeatherUiData
 import com.example.weather_app.util.CustomFontFamily
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weather_app.ui.WeatherTheme
 
 @Composable
