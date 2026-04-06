@@ -18,7 +18,7 @@ object AppDimension {
     val dimension_26 = 26.dp
     val dimension_28 = 28.dp
     val dimension_30 = 30.dp
-    val dimension_32 = 352.dp
+    val dimension_32 = 32.dp
     val dimension_33 = 33.dp
     val dimension_35 = 35.dp
     val dimension_38 = 38.dp
