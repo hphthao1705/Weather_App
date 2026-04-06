@@ -61,6 +61,7 @@ import android.graphics.RenderEffect
 import android.graphics.Shader
 import androidx.compose.ui.graphics.asComposeRenderEffect
 import com.example.weather_app.ui.weatherDetails.WeatherViewModel
+import com.example.weather_app.util.AppDimension
 
 @Composable
 internal fun WeatherDetailsScreen(country: String, onBackButtonClick: () -> Unit) {
@@ -82,18 +83,18 @@ internal fun WeatherDetailsScreen(country: String, onBackButtonClick: () -> Unit
                     .statusBarsPadding()
                     .navigationBarsPadding()
                     // TODO - TH: currently, can't solve the padding system bars issue, so fix this height
-                    .padding(top = 43.dp)
+                    .padding(top = AppDimension.dimension_43)
             ) {
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(AppDimension.dimension_10))
 
                 BackButton(onBackButtonClick = onBackButtonClick)
 
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(AppDimension.dimension_30))
 
                 WeatherCarouselV2((uiState as WeatherUiState.Success).data)
 
                 Text(
-                    modifier = Modifier.padding(30.dp),
+                    modifier = Modifier.padding(AppDimension.dimension_30),
                     text = "Weather now",
                     style = TextStyle(
                         fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
@@ -118,7 +119,7 @@ fun WeatherCarousel(weather: WeatherUiData) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(380.dp)     // reserve vertical layout space
+            .height(AppDimension.dimension_380)     // reserve vertical layout space
             .clipToBounds()
             .pointerInput(Unit) {
                 detectDragGestures { _, dragAmount ->
@@ -162,7 +163,7 @@ fun WeatherCarousel(weather: WeatherUiData) {
                 Column(
                     modifier = Modifier
                         .background(WeatherTheme.colors.brandColor)
-                        .padding(vertical = 20.dp, horizontal = 30.dp),
+                        .padding(vertical = AppDimension.dimension_20, horizontal = AppDimension.dimension_30),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     WeatherDetails(item)
@@ -180,7 +181,7 @@ private fun WeatherCarouselV2(weather: WeatherUiData) {
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxWidth(),
-            pageSpacing = 1.dp,
+            pageSpacing = AppDimension.dimension_1,
             beyondViewportPageCount = weather.cards.size,
             verticalAlignment = Alignment.CenterVertically
         ) { page ->
@@ -189,8 +190,8 @@ private fun WeatherCarouselV2(weather: WeatherUiData) {
                     .fillMaxWidth()
                     .zIndex(page + 2f)
                     .padding(
-                        start = 64.dp,
-                        end = 32.dp
+                        start = AppDimension.dimension_64,
+                        end = AppDimension.dimension_32
                     )
                     .graphicsLayer {
                         val startOffset = pagerState.startOffsetForPage(page)
@@ -220,25 +221,25 @@ private fun WeatherDetails(cardDetails: Card?) {
     if (cardDetails == null) return
     Column(
         modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(AppDimension.dimension_15))
             .background(WeatherTheme.colors.brandColor)
             .border(
-                width = 1.dp,
+                width = AppDimension.dimension_1,
                 color = WeatherTheme.colors.brandColor.copy(alpha = 0.5f),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(AppDimension.dimension_16)
             )
-            .padding(16.dp),
+            .padding(AppDimension.dimension_16),
         horizontalAlignment = Alignment.CenterHorizontally)
     {
         AsyncImage(
             modifier = Modifier
-                .width(150.dp)
-                .height(150.dp),
+                .width(AppDimension.dimension_150)
+                .height(AppDimension.dimension_150),
             model = cardDetails.image,
             contentDescription = "Weather image"
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_12))
 
         Text(
             text = cardDetails.location,
@@ -250,7 +251,7 @@ private fun WeatherDetails(cardDetails: Card?) {
             color = Color.White
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_12))
 
         Text(
             text = cardDetails.temperature,
@@ -262,7 +263,7 @@ private fun WeatherDetails(cardDetails: Card?) {
             color = Color.White
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(AppDimension.dimension_12))
 
         Text(
             text = cardDetails.condition,
@@ -283,11 +284,11 @@ private fun BackButton(onBackButtonClick: () -> Unit) {
         contentDescription = "Back",
         tint = WeatherTheme.colors.onBrandColor,
         modifier = Modifier
-            .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-            .size(32.dp)
+            .padding(start = AppDimension.dimension_20, top = AppDimension.dimension_10, bottom = AppDimension.dimension_10)
+            .size(AppDimension.dimension_32)
             .clip(CircleShape)
             .background(WeatherTheme.colors.brandColor)
             .clickable { onBackButtonClick() }
-            .padding(8.dp)
+            .padding(AppDimension.dimension_8)
     )
 }
