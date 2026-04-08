@@ -132,7 +132,7 @@ fun AppNavGraph() {
         ) { backStackEntry ->
             val country = backStackEntry.arguments?.getString("country")
             WeatherDetailsScreen(
-                country = country.orEmpty(),
+                cityName = country.orEmpty(),
                 onBackButtonClick = { navController.popBackStack() }
             )
         }

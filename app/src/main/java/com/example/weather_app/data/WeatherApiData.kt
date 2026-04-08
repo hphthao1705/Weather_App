@@ -1,90 +1,90 @@
-import kotlinx.serialization.SerialName
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeatherResponse(
-    @SerialName("current")
+    @SerializedName("current")
     val current: Current? = null,
-    @SerialName("location")
+    @SerializedName("location")
     val location: Location? = null
 )
 
 @Serializable
 data class Location(
-    @SerialName("country")
+    @SerializedName("country")
     val country: String? = null,
-    @SerialName("lat")
+    @SerializedName("lat")
     val lat: Double? = null,
-    @SerialName("localtime")
+    @SerializedName("localtime")
     val localtime: String? = null,
-    @SerialName("localtime_epoch")
+    @SerializedName("localtime_epoch")
     val localTimeEpoch: String? = null,
-    @SerialName("lon")
+    @SerializedName("lon")
     val lon: Double? = null,
-    @SerialName("name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerialName("region")
+    @SerializedName("region")
     val region: String? = null,
-    @SerialName("tz_id")
+    @SerializedName("tz_id")
     val tzId: String? = null
 )
 
 @Serializable
 data class Current(
-    @SerialName("cloud")
+    @SerializedName("cloud")
     val cloud: Int? = null,
-    @SerialName("condition")
+    @SerializedName("condition")
     val condition: Condition? = null,
-    @SerialName("feelslike_c")
+    @SerializedName("feelslike_c")
     val feelsLikeC: Double? = null,
-    @SerialName("feelslike_f")
+    @SerializedName("feelslike_f")
     val feelsLikeF: Double? = null,
-    @SerialName("gust_kph")
+    @SerializedName("gust_kph")
     val gustKph: Double? = null,
-    @SerialName("gust_mph")
+    @SerializedName("gust_mph")
     val gustMph: Double? = null,
-    @SerialName("humidity")
+    @SerializedName("humidity")
     val humidity: Int? = null,
-    @SerialName("is_day")
+    @SerializedName("is_day")
     val isDay: Int? = null,
-    @SerialName("last_updated")
+    @SerializedName("last_updated")
     val lastUpdated: String? = null,
-    @SerialName("last_updated_epoch")
+    @SerializedName("last_updated_epoch")
     val lastUpdatedEpoch: Int? = null,
-    @SerialName("precip_in")
+    @SerializedName("precip_in")
     val precipIn: Double? = null,
-    @SerialName("precip_mm")
+    @SerializedName("precip_mm")
     val precipMm: Double? = null,
-    @SerialName("pressure_in")
+    @SerializedName("pressure_in")
     val pressureIn: Double? = null,
-    @SerialName("pressure_mb")
+    @SerializedName("pressure_mb")
     val pressureMb: Double? = null,
-    @SerialName("temp_c")
-    val tempC: String? = null,
-    @SerialName("temp_f")
+    @SerializedName("temp_c")
+    val tempC: Double? = null,
+    @SerializedName("temp_f")
     val tempF: Double? = null,
-    @SerialName("uv")
+    @SerializedName("uv")
     val uv: Double? = null,
-    @SerialName("vis_km")
+    @SerializedName("vis_km")
     val visKm: Double? = null,
-    @SerialName("vis_miles")
+    @SerializedName("vis_miles")
     val visMiles: Double? = null,
-    @SerialName("wind_degree")
+    @SerializedName("wind_degree")
     val windDegree: Int? = null,
-    @SerialName("wind_dir")
+    @SerializedName("wind_dir")
     val windDir: String? = null,
-    @SerialName("wind_kph")
+    @SerializedName("wind_kph")
     val windKph: Double? = null,
-    @SerialName("wind_mph")
+    @SerializedName("wind_mph")
     val windMph: Double? = null
 )
 
 @Serializable
 data class Condition(
-    @SerialName("code")
+    @SerializedName("code")
     val code: Int? = null,
-    @SerialName("icon")
+    @SerializedName("icon")
     val icon: String? = null,
-    @SerialName("text")
+    @SerializedName("text")
     val text: String? = null
 )

@@ -9,6 +9,9 @@ import com.example.weather_app.util.AppModule.COUNTRY_BASE_URL
 import com.example.weather_app.util.AppModule.WEATHER_API_VERSION
 import com.example.weather_app.util.AppModule.WEATHER_BASE_URL
 import com.google.firebase.appdistribution.gradle.ApiService
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.Strictness
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,23 +45,23 @@ object NetworkModule {
     @CountryRetrofit
     @Singleton
     @Provides
-    fun provideRetrofitForCountry(client: OkHttpClient): Retrofit {
+    fun provideRetrofitForCountry(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
 //            .baseUrl("$COUNTRY_BASE_URL$COUNTRY_API_VERSION")
             .baseUrl(COUNTRY_BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 
     @WeatherRetrofit
     @Singleton
     @Provides
-    fun provideRetrofitForWeather(client: OkHttpClient): Retrofit {
+    fun provideRetrofitForWeather(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl("$WEATHER_BASE_URL$WEATHER_API_VERSION")
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 
@@ -81,4 +84,14 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideNetworkMonitor(monitor: NetworkMonitor): NetWorkInterface = monitor
+
+    @Singleton
+    @Provides
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            // allow non-standard JSON to be parsed
+            .setStrictness(Strictness.LENIENT)
+            .setPrettyPrinting()
+            .create()
+    }
 }

@@ -17,18 +17,18 @@ data class Card(
     val condition: String = ""
 )
 
-fun WeatherResponse.toWeatherUiData() : WeatherUiData {
+fun WeatherResponse.toWeatherUiData(): WeatherUiData {
     val card1 = Card(
         image = "https:${this.current?.condition?.icon}",
         location = this.location?.name.orEmpty(),
-        temperature = this.current?.condition?.code.toString(),
+        temperature = "${this.current?.tempC}°C",
         condition = this.current?.condition?.text.orEmpty()
     )
     return WeatherUiData(
         city = this.location?.name.orEmpty(),
         country = this.location?.country.orEmpty(),
-        tempC = this.current?.tempC.orEmpty(),
-        tempF = this.current?.tempF.toString(),
-        cards = listOf(card1, card1, card1)
+        tempC = "${this.current?.tempC}°C",
+        tempF = "${this.current?.tempF.toString()}°F",
+        cards = listOf(card1, card1, card1, card1, card1)
     )
 }
