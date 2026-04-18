@@ -30,6 +30,7 @@ import com.example.weather_app.ui.WeatherTheme
 import com.example.weather_app.ui.home.data.HomeWeatherUiData
 import com.example.weather_app.util.AppDimension
 import com.example.weather_app.util.CustomFontFamily
+import com.example.weather_app.util.debugLog
 
 @Composable
 internal fun HomeScreen(
@@ -174,7 +175,7 @@ private fun WeatherItem(weather: HomeWeatherUiData) {
 }
 
 @Composable
-private fun HistoryWeatherSearchSection(history: List<HomeWeatherUiData>) {
-
+private fun HistoryWeatherSearchSection(histories: List<HomeWeatherUiData>) {
+    "Thao Ho".debugLog()
 }
 
