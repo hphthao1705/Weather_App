@@ -131,4 +131,9 @@ dependencies {
 
     // remove kapt, move to ksp
     ksp(libs.dagger.hilt.android.compiler)
+
+    // room
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.compiler)
 }
