@@ -14,12 +14,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -43,7 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -58,9 +59,7 @@ import com.example.weather_app.ui.search.state.ErrorType
 import com.example.weather_app.ui.search.state.SearchUiState
 import com.example.weather_app.util.AppDimension
 import com.example.weather_app.util.CustomFontFamily
-import com.example.weather_app.util.debugLog
 import kotlinx.coroutines.launch
-import com.example.weather_app.util.WeatherToast
 
 @Composable
 internal fun SearchScreen(
@@ -68,14 +67,12 @@ internal fun SearchScreen(
     onBackButtonClick: () -> Unit,
     onCountryClick: (CountryUiData) -> Unit
 ) {
-    val context = LocalContext.current
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            // automatically pushes content below the camera/status bar and navigation bar
             .statusBarsPadding()
             .navigationBarsPadding()
+            .imePadding()
             .background(WeatherTheme.colors.brandColor)
             .padding(top = AppDimension.dimension_43)
     ) {
@@ -83,7 +80,6 @@ internal fun SearchScreen(
         BackButton(onBackButtonClick = onBackButtonClick)
         Spacer(modifier = Modifier.height(AppDimension.dimension_20))
         SearchSection(onTyping = { query ->
-            "query: $query".debugLog()
             if (query.length < 3) {
                 viewModel.filterCountryByName(isShowAll = true)
                 return@SearchSection
@@ -109,15 +105,9 @@ internal fun SearchScreen(
             is SearchUiState.Success -> {
                 SearchResultsScreen(
                     countries = (uiState as SearchUiState.Success).data,
-                    onItemClick = { country: CountryUiData? ->
-                        if (country != null) {
-                            onCountryClick(country)
-                        } else {
-                            WeatherToast.showError(context = context, errorType = ErrorType.NO_DATA)
-                        }
-
-                        // TODO: testing error only
-//                        WeatherToast.showError(context = context, errorType = ErrorType.NO_DATA)
+                    onItemClick = { country: CountryUiData ->
+                        viewModel.insertCountry(country)
+                        onCountryClick(country)
                     }
                 )
             }
@@ -172,7 +162,7 @@ private fun SearchSection(onTyping:(String) -> Unit) {
             .height(AppDimension.dimension_55)
             .clip(CircleShape),
         value = searchText,
-        onValueChange = { value ->
+        onValueChange = { value: String ->
             searchText = value
             onTyping(value)
         },
@@ -202,24 +192,24 @@ private fun SearchSection(onTyping:(String) -> Unit) {
 }
 
 @Composable
-private fun SearchResultsScreen(countries: List<CountryUiData>, onItemClick: (CountryUiData?) -> Unit) {
+private fun SearchResultsScreen(countries: List<CountryUiData>, onItemClick: (CountryUiData) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
 //        contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(AppDimension.dimension_4) // space between each item
     ) {
-        items(
-            count = countries.size,
-            contentType = { "country_item" },
-            key = { index -> countries[index] }) { index ->
-            val country = countries.getOrNull(index)
+        itemsIndexed(
+            items = countries,
+            contentType = { _, _ -> "country_item" },
+            key = { index, country -> country.name ?: index }
+        ) { _, country ->
             SearchResultItem(country = country, onItemClick)
         }
     }
 }
 
 @Composable
-private fun SearchResultItem(country: CountryUiData?, onItemClick: (CountryUiData?) -> Unit) {
+private fun SearchResultItem(country: CountryUiData, onItemClick: (CountryUiData) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -230,7 +220,7 @@ private fun SearchResultItem(country: CountryUiData?, onItemClick: (CountryUiDat
     ) {
         Text(
             modifier = Modifier.padding(horizontal = AppDimension.dimension_20, vertical = AppDimension.dimension_5),
-            text = country?.name.orEmpty(),
+            text = country.name.orEmpty(),
             style = TextStyle(
                 fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
                 fontSize = 17.sp,

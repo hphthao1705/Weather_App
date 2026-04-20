@@ -16,5 +16,5 @@ abstract class CountryDao {
     abstract suspend fun insert(country: CountryEntity)
 
     @Query("DELETE FROM countries WHERE countryName = :name")
-    abstract suspend fun deleteCountriesByName(name: String)
+    abstract suspend fun deleteCountriesByName(name: String): Int
 }

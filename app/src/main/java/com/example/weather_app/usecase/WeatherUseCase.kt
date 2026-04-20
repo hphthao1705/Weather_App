@@ -23,7 +23,6 @@ class WeatherUseCaseImpl @Inject constructor(
                 when (apiState) {
                     is ApiState.Success -> {
                         val data = apiState.data
-                        "Success: ${apiState.data}".debugLog()
 
                         ApiState.Success(data.toWeatherUiData())
                     }

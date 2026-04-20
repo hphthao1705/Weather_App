@@ -1,5 +1,6 @@
 package com.example.weather_app
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -12,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -41,11 +41,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT)
         )
         supportActionBar?.hide()
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // Single entry point — no more manual fragment transactions
         setContent {
