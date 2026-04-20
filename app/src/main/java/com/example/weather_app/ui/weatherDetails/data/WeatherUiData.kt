@@ -7,6 +7,8 @@ data class WeatherUiData(
     val country: String = "",
     val tempC: String = "",
     val tempF: String = "",
+    val wind: String = "",
+    val pressure: String = "",
     val cards: List<Card>
 )
 
@@ -29,6 +31,8 @@ fun WeatherResponse.toWeatherUiData(): WeatherUiData {
         country = this.location?.country.orEmpty(),
         tempC = "${this.current?.tempC}°C",
         tempF = "${this.current?.tempF.toString()}°F",
+        wind = "${this.current?.windMph.toString()} mph",
+        pressure = "${this.current?.pressureMb.toString()} mb",
         cards = listOf(card1, card1, card1, card1, card1)
     )
 }

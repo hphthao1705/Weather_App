@@ -3,13 +3,14 @@ package com.example.weather_app.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather_app.api.ApiState
+import com.example.weather_app.data.dao.CountryDao
+import com.example.weather_app.data.entities.CountryEntity
 import com.example.weather_app.ui.home.data.CountryUiData
 import com.example.weather_app.ui.search.state.ErrorType
 import com.example.weather_app.ui.search.state.SearchUiState
 import com.example.weather_app.usecase.CountryUseCase
 import com.example.weather_app.util.GsonExt.toJsonOrNull
 import com.example.weather_app.util.PrefsUtils
-import com.example.weather_app.util.debugLog
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val useCase: CountryUseCase
+    private val useCase: CountryUseCase,
+    private val countryDao: CountryDao
 ) : ViewModel() {
 
     private val gson by lazy { Gson() }
@@ -82,6 +84,21 @@ class SearchViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    fun insertCountry(country: CountryUiData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val isSuccess = countryDao.deleteCountriesByName(country.name.orEmpty())
+            if (isSuccess > 0) {
+                // delete success > insert new country
+                countryDao.insert(
+                    CountryEntity(
+                        countryName = country.name.orEmpty(),
+                        countryFlag = country.flags.orEmpty()
+                    )
+                )
             }
         }
     }

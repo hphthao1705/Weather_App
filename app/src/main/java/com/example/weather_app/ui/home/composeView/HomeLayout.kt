@@ -14,19 +14,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weather_app.R
 import com.example.weather_app.ui.WeatherTheme
+import com.example.weather_app.ui.home.HomeViewModel
 import com.example.weather_app.ui.home.data.HomeWeatherUiData
 import com.example.weather_app.util.AppDimension
 import com.example.weather_app.util.CustomFontFamily
@@ -35,12 +41,15 @@ import com.example.weather_app.util.CustomFontFamily
 internal fun HomeScreen(
     onSearchClick: () -> Unit,
 ) {
+    val viewModel = hiltViewModel<HomeViewModel>()
+    val searchHistory by viewModel.historyCountryData.collectAsState()
+
     Column(modifier = Modifier
         .fillMaxSize()
-        // automatically pushes content below the camera/status bar and navigation bar
         .statusBarsPadding()
         .navigationBarsPadding()
         .padding(horizontal = AppDimension.dimension_26)
+        .verticalScroll(rememberScrollState())
     ) {
         HeaderSection(userName = "Thao Ho", onSearchClick = onSearchClick)
 
@@ -61,7 +70,7 @@ internal fun HomeScreen(
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        HistoryWeatherSearchSection(listOf())
+        HistoryWeatherSearchSection(history = searchHistory)
     }
 }
 
@@ -172,9 +181,3 @@ private fun WeatherItem(weather: HomeWeatherUiData) {
         }
     }
 }
-
-@Composable
-private fun HistoryWeatherSearchSection(history: List<HomeWeatherUiData>) {
-
-}
-

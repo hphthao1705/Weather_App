@@ -30,7 +30,6 @@ class WeatherViewModel @Inject constructor(
                     is ApiState.Error -> _uiState.value = WeatherUiState.Error(apiState.message)
                     is ApiState.Loading -> _uiState.value = WeatherUiState.Loading
                     is ApiState.Success -> {
-                        "Success: ${apiState.data}".debugLog()
                         _uiState.value = WeatherUiState.Success(apiState.data)
                     }
                 }
