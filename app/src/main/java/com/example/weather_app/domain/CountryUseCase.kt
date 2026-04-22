@@ -1,7 +1,7 @@
-package com.example.weather_app.usecase
+package com.example.weather_app.domain.repository.usecase
 
-import com.example.weather_app.api.ApiState
-import com.example.weather_app.repository.CountryRepository
+import com.example.weather_app.data.remote.ApiState
+import com.example.weather_app.data.repository.CountryRepository
 import com.example.weather_app.ui.home.data.CountryUiData
 import com.example.weather_app.ui.home.data.toCountryUiDataList
 import kotlinx.coroutines.flow.Flow

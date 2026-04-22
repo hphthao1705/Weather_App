@@ -1,7 +1,7 @@
 package com.example.weather_app.ui.home.data
 
 import android.os.Parcelable
-import com.example.weather_app.data.CountryResponse
+import com.example.weather_app.data.remote.model.CountryResponse
 import kotlinx.android.parcel.Parcelize
 
 // if not use Parcelize, Android can't store inside Bundle => crash

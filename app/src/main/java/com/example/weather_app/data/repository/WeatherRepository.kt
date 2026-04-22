@@ -1,10 +1,9 @@
-package com.example.weather_app.repository
+package com.example.weather_app.data.repository
 
 import WeatherResponse
-import com.example.weather_app.api.CountryApiClient
-import com.example.weather_app.api.ApiHelper
-import com.example.weather_app.api.ApiState
-import com.example.weather_app.api.WeatherApiClient
+import com.example.weather_app.data.remote.ApiHelper
+import com.example.weather_app.data.remote.ApiState
+import com.example.weather_app.data.remote.WeatherApiClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

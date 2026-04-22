@@ -1,4 +1,4 @@
-package com.example.weather_app.api
+package com.example.weather_app.data.remote
 
 import com.example.weather_app.util.printDebugStackTrace
 import retrofit2.Response

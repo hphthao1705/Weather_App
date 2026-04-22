@@ -1,4 +1,4 @@
-package com.example.weather_app.api
+package com.example.weather_app.data.remote
 
 import android.util.Log
 import okhttp3.Interceptor

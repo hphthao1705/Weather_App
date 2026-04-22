@@ -1,11 +1,11 @@
 package com.example.weather_app.di
 
-import com.example.weather_app.repository.CountryRepository
-import com.example.weather_app.repository.WeatherRepository
-import com.example.weather_app.usecase.CountryUseCase
-import com.example.weather_app.usecase.CountryUseCaseImpl
-import com.example.weather_app.usecase.WeatherUseCase
-import com.example.weather_app.usecase.WeatherUseCaseImpl
+import com.example.weather_app.data.repository.CountryRepository
+import com.example.weather_app.data.repository.WeatherRepository
+import com.example.weather_app.domain.repository.usecase.CountryUseCase
+import com.example.weather_app.domain.repository.usecase.CountryUseCaseImpl
+import com.example.weather_app.domain.repository.usecase.WeatherUseCase
+import com.example.weather_app.domain.repository.usecase.WeatherUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

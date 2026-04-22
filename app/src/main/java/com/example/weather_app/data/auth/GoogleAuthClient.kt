@@ -1,4 +1,4 @@
-package com.example.weather_app.google
+package com.example.weather_app.data.auth
 
 import android.content.Context
 import androidx.credentials.Credential
@@ -19,7 +19,7 @@ class GoogleAuthClient(
     private val context: Context,
     private val auth: FirebaseAuth = Firebase.auth
 ) {
-    private val credentialManager = CredentialManager.create(context)
+    private val credentialManager = CredentialManager.Companion.create(context)
 
     suspend fun signIn(): FirebaseUser? {
         val googleIdOption = GetGoogleIdOption.Builder()
@@ -42,9 +42,9 @@ class GoogleAuthClient(
 
     private suspend fun handleSignIn(credential: Credential): FirebaseUser? {
         if (credential is CustomCredential &&
-            credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+            credential.type == GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
         ) {
-            val googleIdToken = GoogleIdTokenCredential.createFrom(credential.data).idToken
+            val googleIdToken = GoogleIdTokenCredential.Companion.createFrom(credential.data).idToken
             val firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
             return auth.signInWithCredential(firebaseCredential).await().user
         }
