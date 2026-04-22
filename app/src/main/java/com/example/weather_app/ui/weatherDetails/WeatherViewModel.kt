@@ -2,10 +2,9 @@ package com.example.weather_app.ui.weatherDetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weather_app.api.ApiState
+import com.example.weather_app.data.remote.ApiState
 import com.example.weather_app.ui.weatherDetails.state.WeatherUiState
-import com.example.weather_app.usecase.WeatherUseCase
-import com.example.weather_app.util.debugLog
+import com.example.weather_app.domain.repository.usecase.WeatherUseCase
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

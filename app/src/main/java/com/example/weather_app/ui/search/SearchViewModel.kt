@@ -2,13 +2,13 @@ package com.example.weather_app.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weather_app.api.ApiState
-import com.example.weather_app.data.dao.CountryDao
-import com.example.weather_app.data.entities.CountryEntity
+import com.example.weather_app.data.remote.ApiState
+import com.example.weather_app.data.local.dao.CountryDao
+import com.example.weather_app.data.local.dao.entities.CountryEntity
 import com.example.weather_app.ui.home.data.CountryUiData
 import com.example.weather_app.ui.search.state.ErrorType
 import com.example.weather_app.ui.search.state.SearchUiState
-import com.example.weather_app.usecase.CountryUseCase
+import com.example.weather_app.domain.repository.usecase.CountryUseCase
 import com.example.weather_app.util.GsonExt.toJsonOrNull
 import com.example.weather_app.util.PrefsUtils
 import com.google.gson.Gson

@@ -1,6 +1,4 @@
-package com.example.weather_app.api
-
-import retrofit2.Response
+package com.example.weather_app.data.remote
 
 sealed class ApiState<out T> {
     data class Success<out T>(val data: T) : ApiState<T>()

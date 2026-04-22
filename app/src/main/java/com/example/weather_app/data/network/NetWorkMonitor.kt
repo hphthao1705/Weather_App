@@ -1,4 +1,4 @@
-package com.example.weather_app.network
+package com.example.weather_app.data.network
 
 import android.content.Context
 import com.example.weather_app.util.NetworkUtils

@@ -3,7 +3,7 @@ package com.example.weather_app.di
 import android.content.Context
 import androidx.room.Room
 import com.example.weather_app.data.AppDatabase
-import com.example.weather_app.data.dao.CountryDao
+import com.example.weather_app.data.local.dao.CountryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

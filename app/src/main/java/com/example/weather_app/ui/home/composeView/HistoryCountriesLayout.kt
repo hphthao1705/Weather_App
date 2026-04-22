@@ -16,7 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.weather_app.data.entities.CountryEntity
+import com.example.weather_app.data.local.dao.entities.CountryEntity
 import com.example.weather_app.ui.WeatherTheme
 import com.example.weather_app.util.AppDimension
 import com.example.weather_app.util.CustomFontFamily
