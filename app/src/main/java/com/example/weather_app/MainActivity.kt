@@ -10,10 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -97,9 +94,9 @@ private fun AppNavigation(
         transitionSpec = {
             // compare the order to know it back navigation or not
             if (targetState.order > initialState.order) {
-               enterSlideIn<NavEventState>(this) togetherWith exitSlideOut<NavEventState>(this)
+               enterSlideIn<NavEventState>() togetherWith exitSlideOut<NavEventState>()
             } else {
-                popEnterSlideIn<NavEventState>(this) togetherWith popExitSlideOut<NavEventState>(this)
+                popEnterSlideIn<NavEventState>() togetherWith popExitSlideOut<NavEventState>()
             }
         },
         label = "NavigationFlowAnimation"
@@ -126,7 +123,7 @@ private fun AppNavigation(
             NavEventState.GoToSearch -> {
                 SearchScreen(
                     viewModel = hiltViewModel(),
-                    onBackButtonClick = {  },
+                    onBackButtonClick = { sharedViewModel.goBack() },
                     onCountryClick = { country ->
                         sharedViewModel.onGoToWeatherDetails(country.name)
                     }
@@ -135,7 +132,7 @@ private fun AppNavigation(
             is NavEventState.GoToWeatherDetails -> {
                 WeatherDetailsScreen(
                     cityName = (currentScreen as NavEventState.GoToWeatherDetails).cityName,
-                    onBackButtonClick = { sharedViewModel.onGoToHome() }
+                    onBackButtonClick = { sharedViewModel.goBack() }
                 )
             }
         }

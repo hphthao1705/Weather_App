@@ -14,35 +14,31 @@ class SharedFlowViewModel @Inject constructor(): ViewModel() {
     private val _navEvents = MutableStateFlow<NavEventState>(NavEventState.GoToOnBoarding)
     val navEvents = _navEvents.asStateFlow()
 
-    fun onGoToOnBoarding() {
+    private val backStack = ArrayDeque<NavEventState>().apply {
+        add(NavEventState.GoToOnBoarding)
+    }
+
+    private fun navigateTo(screen: NavEventState) {
         viewModelScope.launch(Dispatchers.IO) {
-            _navEvents.emit(NavEventState.GoToOnBoarding)
+            backStack.addLast(screen)
+            _navEvents.emit(screen)
         }
     }
 
-    fun onGoToHome() {
+    fun goBack(): Boolean {
+        if (backStack.size <= 1) return false // nothing to pop
+        backStack.removeLast()
         viewModelScope.launch(Dispatchers.IO) {
-            _navEvents.emit(NavEventState.GoToHome)
+            _navEvents.emit(backStack.last())
         }
+        return true
     }
 
-    fun onGoToLogin() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _navEvents.emit(NavEventState.GoToLogin)
-        }
-    }
-
-    fun onGoToSearch() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _navEvents.emit(NavEventState.GoToSearch)
-        }
-    }
-
-    fun onGoToWeatherDetails(cityName: String?) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _navEvents.emit(NavEventState.GoToWeatherDetails(cityName))
-        }
-    }
+    fun onGoToOnBoarding() = navigateTo(NavEventState.GoToOnBoarding)
+    fun onGoToHome() = navigateTo(NavEventState.GoToHome)
+    fun onGoToLogin() = navigateTo(NavEventState.GoToLogin)
+    fun onGoToSearch() = navigateTo(NavEventState.GoToSearch)
+    fun onGoToWeatherDetails(cityName: String?) = navigateTo(NavEventState.GoToWeatherDetails(cityName))
 
     fun resetFlow() {
         viewModelScope.launch(Dispatchers.IO) {
