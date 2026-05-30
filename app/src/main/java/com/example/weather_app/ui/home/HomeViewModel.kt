@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather_app.data.remote.ApiState
 import com.example.weather_app.data.local.dao.CountryDao
-import com.example.weather_app.data.local.dao.entities.CountryEntity
+import com.example.weather_app.data.model.Country
 import com.example.weather_app.domain.repository.usecase.CountryUseCase
 import com.example.weather_app.util.GsonExt.toJsonOrNull
 import com.example.weather_app.util.PrefsUtils
@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(
 
     private val gson by lazy { Gson() }
 
-    private val _historyCountryData: MutableStateFlow<List<CountryEntity>> = MutableStateFlow(emptyList())
+    private val _historyCountryData: MutableStateFlow<List<Country>> = MutableStateFlow(emptyList())
     val historyCountryData = _historyCountryData.asStateFlow()
 
     init {

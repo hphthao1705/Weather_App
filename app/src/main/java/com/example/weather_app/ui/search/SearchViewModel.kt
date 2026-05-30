@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather_app.data.remote.ApiState
 import com.example.weather_app.data.local.dao.CountryDao
-import com.example.weather_app.data.local.dao.entities.CountryEntity
+import com.example.weather_app.data.model.Country
 import com.example.weather_app.ui.home.data.CountryUiData
 import com.example.weather_app.ui.search.state.ErrorType
 import com.example.weather_app.ui.search.state.SearchUiState
@@ -94,9 +94,9 @@ class SearchViewModel @Inject constructor(
             if (isSuccess > 0) {
                 // delete success > insert new country
                 countryDao.insert(
-                    CountryEntity(
-                        countryName = country.name.orEmpty(),
-                        countryFlag = country.flags.orEmpty()
+                    Country(
+                        name = country.name.orEmpty(),
+                        flagResourceName = country.flags.orEmpty()
                     )
                 )
             }

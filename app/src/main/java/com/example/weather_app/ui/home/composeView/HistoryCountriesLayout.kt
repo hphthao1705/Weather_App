@@ -16,14 +16,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.weather_app.data.local.dao.entities.CountryEntity
+import com.example.weather_app.data.model.Country
 import com.example.weather_app.ui.WeatherTheme
 import com.example.weather_app.util.AppDimension
 import com.example.weather_app.util.CustomFontFamily
 import com.example.weather_app.util.debugLog
 
 @Composable
-private fun CountryItem(country: CountryEntity) {
+private fun CountryItem(country: Country) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -31,7 +31,7 @@ private fun CountryItem(country: CountryEntity) {
             .clip(shape = RoundedCornerShape(AppDimension.dimension_20))
     ) {
         AsyncImage(
-            model = country.countryFlag,
+            model = country.flagResourceName,
             contentDescription = null,
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.matchParentSize(),
@@ -39,7 +39,7 @@ private fun CountryItem(country: CountryEntity) {
         )
 
         Text(
-            text = country.countryName,
+            text = country.name,
             style = TextStyle(
                 fontFamily = CustomFontFamily.SF_PRO_DISPLAY_TEXT,
                 fontSize = 20.sp,
@@ -52,7 +52,7 @@ private fun CountryItem(country: CountryEntity) {
 }
 
 @Composable
-fun HistoryWeatherSearchSection(modifier: Modifier = Modifier, history: List<CountryEntity>) {
+fun HistoryWeatherSearchSection(modifier: Modifier = Modifier, history: List<Country>) {
     "history: $history".debugLog()
     Column(modifier = modifier) {
         history.forEach { country ->

@@ -68,7 +68,7 @@ internal fun WeatherDetailsScreen(cityName: String?, onBackButtonClick: () -> Un
             ) {
                 Spacer(modifier = Modifier.height(AppDimension.dimension_10))
 
-                HeaderRow(onBackButtonClick = onBackButtonClick, cityName = cityName)
+                HeaderRow(onBackButtonClick = onBackButtonClick, cityName = cityName.orEmpty())
 
                 Spacer(modifier = Modifier.height(AppDimension.dimension_30))
 
