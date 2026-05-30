@@ -1,0 +1,119 @@
+# Skill: reorder-class
+
+Reorder the functions/members of a Kotlin or Java class to follow project conventions.
+
+## Step 1 — Identify the class type
+
+Read the target file provided by the user (or the currently open/selected file).
+
+Determine which convention applies:
+
+- **Convention A — Android Component**: the class extends or implements any of: `Activity`, `Fragment`, `Service`, `BroadcastReceiver`, `ContentProvider`, `DialogFragment`, `BottomSheetDialogFragment`, `RecyclerView.Adapter`, `RecyclerView.ViewHolder`, `View`, or any subclass thereof.
+- **Convention B — General class**: everything else (`ViewModel`, `Repository`, `UseCase`, `Presenter`, data classes, utility classes, etc.).
+
+---
+
+## Convention A — Android Component order
+
+Reorder members into these sections, in this exact order:
+
+1. **Properties & UI variables**
+   - Constants (`const val`, `@JvmStatic val`)
+   - Fields / lateinit / lazy properties
+   - ViewBinding / DataBinding references
+   - View references (`findViewById` results, `@BindView`)
+
+2. **Lifecycle callbacks** — in chronological execution order:
+   `onAttach` → `onCreate` / `onCreate(Bundle)` → `onCreateView` → `onViewCreated` → `onActivityCreated` → `onStart` → `onResume` → `onPause` → `onStop` → `onSaveInstanceState` → `onDestroyView` → `onDestroy` → `onDetach`
+   Include only the ones that are actually overridden.
+
+3. **Framework overrides** (non-lifecycle):
+   e.g., `onCreateOptionsMenu`, `onOptionsItemSelected`, `onConfigurationChanged`, `onActivityResult`, `onRequestPermissionsResult`, `onBackPressed`, `dispatchTouchEvent`
+
+4. **UI Setup & Event Listeners**:
+   Functions whose names start with `setup`, `init`, `bind`, `register`, `attach`, or that clearly configure views/listeners.
+
+5. **Standard public & private functions** — use Convention B ordering within this section (public function followed immediately by its private helpers).
+
+6. **`companion object`** — always last.
+
+---
+
+## Convention B — General class order
+
+Reorder members into these sections, in this exact order:
+
+1. **Properties, `init` blocks, constructors**
+   - Constants
+   - Properties
+   - Backing fields
+   - `init { }` block(s)
+   - Secondary constructors
+
+2. **Paired public/private grouping** — for each public function, place its private helper functions immediately after it, before the next public function:
+   ```
+   fun publicFunctionA() { ... }
+   private fun helperForA1() { ... }
+   private fun helperForA2() { ... }
+
+   fun publicFunctionB() { ... }
+   private fun helperForB() { ... }
+   ```
+   - A helper "belongs to" a public function if it is called **only** from that function (or from other helpers that belong to the same function). If a private function is called from multiple public functions, place it after all those public functions, before the next unrelated public function.
+   - Override functions (`override fun`) count as public for ordering purposes.
+
+3. **`companion object`** — always last.
+
+---
+
+## Step 2 — Show the plan before editing
+
+Before making any changes, output a **reorder plan** in this format:
+
+```
+## Reorder Plan — [ClassName] ([Convention A | Convention B])
+
+### Current order:
+1. [member name] ([type: property | lifecycle | framework | ui-setup | public | private | companion])
+2. ...
+
+### Proposed order:
+1. [member name]
+2. ...
+
+### Changes:
+- Moved [X] from position N → M  (reason: [lifecycle order | belongs to public fn Y | ui-setup | etc.])
+- ...
+
+No logic will be modified. Only member order changes.
+```
+
+Wait for the user to confirm before proceeding to Step 3.
+
+---
+
+## Step 3 — Apply the reorder
+
+After user confirmation:
+
+1. Read the full file content.
+2. Reorder the members exactly as shown in the plan.
+3. Preserve:
+   - All comments attached to a member (move them with the member).
+   - All blank lines used as section separators (add one blank line between sections if missing).
+   - All annotations (`@Override`, `@Inject`, `@SuppressLint`, etc.) — keep them attached to their member.
+   - Exact indentation and formatting of each member body.
+4. Do **not** modify any logic, rename anything, or add/remove imports.
+5. Use the `Edit` tool to apply changes.
+
+---
+
+## Step 4 — Confirm
+
+After editing, output:
+
+```
+Done. Reordered [N] members in [ClassName] following Convention [A | B].
+```
+
+If any member was ambiguous (e.g., a private function called from multiple public functions), explain the decision made.

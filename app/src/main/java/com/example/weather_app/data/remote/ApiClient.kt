@@ -1,9 +1,9 @@
-package com.example.weather_app.api
+package com.example.weather_app.data.remote
 
 import WeatherResponse
-import com.example.weather_app.api.ApiEndPoint.GET_ALL_COUNTRY
-import com.example.weather_app.api.ApiEndPoint.GET_WEATHER
-import com.example.weather_app.data.CountryResponse
+import com.example.weather_app.util.ApiEndPoint.GET_ALL_COUNTRY
+import com.example.weather_app.util.ApiEndPoint.GET_WEATHER
+import com.example.weather_app.data.remote.model.CountryResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header

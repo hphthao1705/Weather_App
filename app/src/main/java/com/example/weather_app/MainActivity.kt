@@ -1,18 +1,27 @@
 package com.example.weather_app
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.SystemBarStyle
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.core.view.WindowCompat
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -41,11 +50,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT)
         )
         supportActionBar?.hide()
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // Single entry point — no more manual fragment transactions
         setContent {
@@ -62,79 +70,74 @@ fun AppNavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = "onboarding"
+        startDestination = "navigation_flow"
     ) {
 
-        // 1. Onboarding — start destination, removed from back stack on proceed
-        composable(
-            "onboarding",
-            enterTransition = enterSlideIn(),
-            exitTransition = exitSlideOut(),
-            popEnterTransition = popEnterSlideIn(),
-            popExitTransition = popExitSlideOut()
-        ) {
-            var showLoginSheet by remember { mutableStateOf(false) }
+        composable("navigation_flow") {
+            AppNavigation()
+        }
+    }
+}
 
-            OnboardingScreen(
-                onButtonClick = {
-                    navController.navigate("home") {
-                        // Clear onboarding off the back stack so back button doesn't return to it
-                        popUpTo("onboarding") { inclusive = true }
-                    }
-                },
-                onLogInClick = { showLoginSheet = true }
-            )
+@Composable
+private fun AppNavigation(
+    sharedViewModel: SharedFlowViewModel = hiltViewModel()
+) {
+    val currentScreen by sharedViewModel.navEvents.collectAsState()
+    var showLoginSheet by remember { mutableStateOf(false) }
 
-            if (showLoginSheet) {
+    // TODO - TH: handle this
+    BackHandler(enabled = true) {
+
+    }
+
+    AnimatedContent(
+        targetState = currentScreen,
+        modifier = Modifier.fillMaxSize(),
+        transitionSpec = {
+            // compare the order to know it back navigation or not
+            if (targetState.order > initialState.order) {
+               enterSlideIn<NavEventState>(this) togetherWith exitSlideOut<NavEventState>(this)
+            } else {
+                popEnterSlideIn<NavEventState>(this) togetherWith popExitSlideOut<NavEventState>(this)
+            }
+        },
+        label = "NavigationFlowAnimation"
+    ) { targetScreen ->
+        when (targetScreen) {
+            NavEventState.GoToOnBoarding -> {
+                OnboardingScreen(
+                    onButtonClick = {
+                        sharedViewModel.onGoToHome()
+                    },
+                    onLogInClick = { showLoginSheet = true }
+                )
+            }
+            NavEventState.GoToHome -> {
+                HomeScreen(
+                    onSearchClick = { sharedViewModel.onGoToSearch() }
+                )
+            }
+            NavEventState.GoToLogin -> {
                 LoginBottomSheet(
                     onDismiss = { showLoginSheet = false }
                 )
             }
-        }
-
-        // 2. Home
-        composable(
-            "home",
-            enterTransition = enterSlideIn(),
-            exitTransition = exitSlideOut(),
-            popEnterTransition = popEnterSlideIn(),
-            popExitTransition = popExitSlideOut()
-        ) {
-            HomeScreen(
-                onSearchClick = { navController.navigate("search") }
-            )
-        }
-
-        // 3. Search
-        composable(
-            "search",
-            enterTransition = enterSlideIn(),
-            exitTransition = exitSlideOut(),
-            popEnterTransition = popEnterSlideIn(),
-            popExitTransition = popExitSlideOut()
-        ) {
-            SearchScreen(
-                viewModel = hiltViewModel(),
-                onBackButtonClick = { navController.popBackStack() },
-                onCountryClick = { country ->
-                    navController.navigate("weatherDetails/${country.name}")
-                }
-            )
-        }
-
-        // 4. Weather Details
-        composable(
-            route = "weatherDetails/{country}",
-            enterTransition = enterSlideIn(),
-            exitTransition = exitSlideOut(),
-            popEnterTransition = popEnterSlideIn(),
-            popExitTransition = popExitSlideOut()
-        ) { backStackEntry ->
-            val country = backStackEntry.arguments?.getString("country")
-            WeatherDetailsScreen(
-                cityName = country.orEmpty(),
-                onBackButtonClick = { navController.popBackStack() }
-            )
+            NavEventState.GoToSearch -> {
+                SearchScreen(
+                    viewModel = hiltViewModel(),
+                    onBackButtonClick = {  },
+                    onCountryClick = { country ->
+                        sharedViewModel.onGoToWeatherDetails(country.name)
+                    }
+                )
+            }
+            is NavEventState.GoToWeatherDetails -> {
+                WeatherDetailsScreen(
+                    cityName = (currentScreen as NavEventState.GoToWeatherDetails).cityName,
+                    onBackButtonClick = { sharedViewModel.onGoToHome() }
+                )
+            }
         }
     }
 }

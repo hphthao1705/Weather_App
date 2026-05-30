@@ -1,10 +1,10 @@
 package com.example.weather_app.di
 
-import com.example.weather_app.api.CountryApiClient
-import com.example.weather_app.api.CurlLoggingInterceptor
-import com.example.weather_app.api.WeatherApiClient
-import com.example.weather_app.network.NetWorkInterface
-import com.example.weather_app.network.NetworkMonitor
+import com.example.weather_app.data.remote.CountryApiClient
+import com.example.weather_app.data.remote.CurlLoggingInterceptor
+import com.example.weather_app.data.remote.WeatherApiClient
+import com.example.weather_app.data.network.NetWorkInterface
+import com.example.weather_app.data.network.NetworkMonitor
 import com.example.weather_app.util.AppModule.COUNTRY_BASE_URL
 import com.example.weather_app.util.AppModule.WEATHER_API_VERSION
 import com.example.weather_app.util.AppModule.WEATHER_BASE_URL
