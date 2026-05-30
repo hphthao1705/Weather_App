@@ -43,10 +43,9 @@ import com.example.weather_app.ui.weatherDetails.data.WeatherUiData
 import com.example.weather_app.ui.weatherDetails.state.WeatherUiState
 import com.example.weather_app.util.AppDimension
 import com.example.weather_app.util.CustomFontFamily
-import com.example.weather_app.util.debugLog
 
 @Composable
-internal fun WeatherDetailsScreen(cityName: String, onBackButtonClick: () -> Unit) {
+internal fun WeatherDetailsScreen(cityName: String?, onBackButtonClick: () -> Unit) {
     val viewModel = hiltViewModel<WeatherViewModel>()
     viewModel.getWeather(cityName = cityName)
 
