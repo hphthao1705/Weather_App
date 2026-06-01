@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -55,7 +56,11 @@ class MainActivity : AppCompatActivity() {
         // Single entry point — no more manual fragment transactions
         setContent {
             WeatherAppTheme {
-                AppNavGraph()
+                Box(modifier = Modifier.fillMaxSize()) {
+                    AppNavGraph()
+                    // TODO - TH: Screen Toast here, write a function to handle this
+
+                }
             }
         }
     }
@@ -94,9 +99,9 @@ private fun AppNavigation(
         transitionSpec = {
             // compare the order to know it back navigation or not
             if (targetState.order > initialState.order) {
-               enterSlideIn<NavEventState>() togetherWith exitSlideOut<NavEventState>()
+               enterSlideIn() togetherWith exitSlideOut()
             } else {
-                popEnterSlideIn<NavEventState>() togetherWith popExitSlideOut<NavEventState>()
+                popEnterSlideIn() togetherWith popExitSlideOut()
             }
         },
         label = "NavigationFlowAnimation"
@@ -110,16 +115,20 @@ private fun AppNavigation(
                     onLogInClick = { showLoginSheet = true }
                 )
             }
+
             NavEventState.GoToHome -> {
                 HomeScreen(
                     onSearchClick = { sharedViewModel.onGoToSearch() }
                 )
             }
+
             NavEventState.GoToLogin -> {
+                // TODO - TH: handle this
                 LoginBottomSheet(
                     onDismiss = { showLoginSheet = false }
                 )
             }
+
             NavEventState.GoToSearch -> {
                 SearchScreen(
                     viewModel = hiltViewModel(),
@@ -129,6 +138,7 @@ private fun AppNavigation(
                     }
                 )
             }
+
             is NavEventState.GoToWeatherDetails -> {
                 WeatherDetailsScreen(
                     cityName = (currentScreen as NavEventState.GoToWeatherDetails).cityName,
